@@ -159,7 +159,7 @@
         .viz-container h4 { color: #667eea; margin-bottom: 15px; font-size: 1em; }
         .viz-container canvas {
             display: block; margin: 0 auto; border-radius: 8px; cursor: crosshair;
-            max-width: 100%; height: auto;
+            max-width: 100%; height: auto; box-sizing: border-box;
         }
         .viz-container svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
         .viz-controls {
@@ -1669,18 +1669,26 @@
             if (!orig) return 1;
             const container = canvas.closest('.viz-container');
             if (!container) return 1;
-            const containerWidth = container.clientWidth - 24; // account for padding
+            // Get the actual available content width of the container (excludes padding & border)
+            const style = getComputedStyle(container);
+            const paddingLeft = parseFloat(style.paddingLeft) || 0;
+            const paddingRight = parseFloat(style.paddingRight) || 0;
+            const borderLeft = parseFloat(style.borderLeftWidth) || 0;
+            const borderRight = parseFloat(style.borderRightWidth) || 0;
+            const containerWidth = container.clientWidth - paddingLeft - paddingRight;
             const maxW = orig.w;
             const dpr = window.devicePixelRatio || 1;
-            const displayW = Math.min(maxW, Math.max(280, containerWidth));
+            const displayW = Math.min(maxW, Math.max(240, containerWidth));
             const scale = displayW / orig.w;
             const displayH = Math.round(orig.h * scale);
             // Set the actual pixel buffer size (for sharpness on retina)
             canvas.width = Math.round(displayW * dpr);
             canvas.height = Math.round(displayH * dpr);
-            // Set the CSS display size
+            // Set the CSS display size — use margin auto for centering
             canvas.style.width = displayW + 'px';
             canvas.style.height = displayH + 'px';
+            canvas.style.marginLeft = 'auto';
+            canvas.style.marginRight = 'auto';
             return scale;
         }
 
