@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS6491 凸优化 - 完整复习知识点 (中英对照)</title>
+    <title>CS6491 凸优化 - 复习知识点 (中英对照)</title>
     <script>
         MathJax = {
             tex: {
@@ -103,10 +103,41 @@
         }
         .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
         @media (max-width: 768px) {
-            .container { padding: 10px; }
-            header h1 { font-size: 1.8em; }
-            .section { padding: 20px; }
+            .container { padding: 8px; }
+            header { padding: 25px 12px; }
+            header h1 { font-size: 1.5em; }
+            header p { font-size: 0.95em; }
+            .section { padding: 15px 12px; margin-bottom: 15px; border-radius: 12px; }
+            .section h2 { font-size: 1.25em; }
+            .section h3 { font-size: 1.05em; }
+            .nav-toc { padding: 18px 12px; border-radius: 12px; }
             .nav-toc ul { grid-template-columns: 1fr; }
+            .nav-toc a { padding: 8px 10px; font-size: 0.9em; }
+            .definition, .example, .tip, .warning, .answer, .analogy {
+                padding: 12px 14px; margin: 10px 0; font-size: 0.92em;
+            }
+            .formula-box { padding: 12px 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .tab-buttons { flex-wrap: wrap; }
+            .tab-btn { padding: 6px 10px; font-size: 0.8em; }
+            .tab-content { padding: 12px; }
+            .exam-tag { font-size: 0.65em; margin-left: 5px; }
+            .back-to-top { width: 40px; height: 40px; font-size: 16px; bottom: 20px; right: 15px; }
+            .en { font-size: 0.88em; }
+            .bilingual { font-size: 0.93em; }
+            ul, ol { padding-left: 16px; }
+            li { font-size: 0.93em; }
+            /* MathJax overflow fix */
+            .MathJax { font-size: 0.85em !important; }
+            mjx-container { max-width: 100% !important; overflow-x: auto !important; }
+        }
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.25em; }
+            header p { font-size: 0.85em; }
+            .section { padding: 12px 10px; }
+            .section h2 { font-size: 1.1em; }
+            .definition, .example, .tip, .warning, .answer, .analogy {
+                padding: 10px 12px; font-size: 0.88em;
+            }
         }
         .tab-container { margin: 15px 0; }
         .tab-buttons { display: flex; gap: 5px; margin-bottom: 0; }
@@ -126,8 +157,11 @@
             overflow: hidden;
         }
         .viz-container h4 { color: #667eea; margin-bottom: 15px; font-size: 1em; }
-        .viz-container canvas { display: block; margin: 0 auto; border-radius: 8px; cursor: crosshair; }
-        .viz-container svg { display: block; margin: 0 auto; }
+        .viz-container canvas {
+            display: block; margin: 0 auto; border-radius: 8px; cursor: crosshair;
+            max-width: 100%; height: auto;
+        }
+        .viz-container svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
         .viz-controls {
             display: flex; gap: 10px; justify-content: center; margin-top: 12px; flex-wrap: wrap;
         }
@@ -137,15 +171,28 @@
             transition: all 0.3s;
         }
         .viz-btn:hover, .viz-btn.active { background: #667eea; color: white; }
-        .viz-slider-group { display: flex; align-items: center; gap: 8px; margin-top: 10px; justify-content: center; }
-        .viz-slider-group label { font-size: 0.85em; color: #555; }
-        .viz-slider-group input[type="range"] { width: 200px; }
+        .viz-slider-group {
+            display: flex; align-items: center; gap: 8px; margin-top: 10px;
+            justify-content: center; flex-wrap: wrap;
+        }
+        .viz-slider-group label { font-size: 0.85em; color: #555; white-space: nowrap; }
+        .viz-slider-group input[type="range"] { width: 200px; max-width: 40vw; }
         .viz-caption { font-size: 0.8em; color: #888; margin-top: 8px; font-style: italic; }
+        @media (max-width: 768px) {
+            .viz-container { padding: 12px 8px; margin: 12px 0; }
+            .viz-container h4 { font-size: 0.88em; margin-bottom: 10px; }
+            .viz-controls { gap: 6px; }
+            .viz-btn { padding: 5px 10px; font-size: 0.78em; }
+            .viz-slider-group { gap: 5px; }
+            .viz-slider-group label { font-size: 0.78em; }
+            .viz-slider-group input[type="range"] { width: 120px; max-width: 35vw; }
+            .viz-caption { font-size: 0.7em; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>📐 CS6491 凸优化完整复习指南</h1>
+<h1>📐 CS6491 凸优化复习指南</h1>
         <p>Convex Optimization Review Guide | 中英对照 + 试题详解</p>
     </header>
 
@@ -1595,6 +1642,87 @@
     <button class="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
 
     <script>
+        // ============ Canvas Responsive Resize Utility ============
+        // Original design dimensions for each canvas
+        const canvasOriginalSizes = {
+            'convexSetCanvas': { w: 500, h: 280 },
+            'convexFuncCanvas': { w: 500, h: 300 },
+            'conjugateCanvas': { w: 500, h: 300 },
+            'hyperplaneCanvas': { w: 500, h: 300 },
+            'convexHullCanvas': { w: 500, h: 280 },
+            'sensitivityCanvas': { w: 500, h: 260 },
+            'gradDescentCanvas': { w: 500, h: 350 },
+            'steepestCanvas': { w: 500, h: 300 },
+            'newtonVsGDCanvas': { w: 500, h: 350 },
+            'selfConcordCanvas': { w: 500, h: 260 },
+            'strongConvexCanvas': { w: 500, h: 280 },
+            'eqNewton3DCanvas': { w: 540, h: 380 },
+            'barrierCanvas': { w: 500, h: 300 }
+        };
+
+        // Resize a canvas to fit its container, maintaining aspect ratio
+        // Returns the scale factor applied
+        function fitCanvas(canvas) {
+            if (!canvas) return 1;
+            const id = canvas.id;
+            const orig = canvasOriginalSizes[id];
+            if (!orig) return 1;
+            const container = canvas.closest('.viz-container');
+            if (!container) return 1;
+            const containerWidth = container.clientWidth - 24; // account for padding
+            const maxW = orig.w;
+            const dpr = window.devicePixelRatio || 1;
+            const displayW = Math.min(maxW, Math.max(280, containerWidth));
+            const scale = displayW / orig.w;
+            const displayH = Math.round(orig.h * scale);
+            // Set the actual pixel buffer size (for sharpness on retina)
+            canvas.width = Math.round(displayW * dpr);
+            canvas.height = Math.round(displayH * dpr);
+            // Set the CSS display size
+            canvas.style.width = displayW + 'px';
+            canvas.style.height = displayH + 'px';
+            return scale;
+        }
+
+        // Prepare canvas context with proper scaling for drawing
+        // Call this at the start of each draw function
+        // It returns the 2d context with scale already applied
+        function prepareCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return null;
+            const orig = canvasOriginalSizes[canvasId];
+            if (!orig) return canvas.getContext('2d');
+            const scale = fitCanvas(canvas);
+            const dpr = window.devicePixelRatio || 1;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.scale(scale * dpr, scale * dpr); // scale so drawing code uses original coordinates
+            return ctx;
+        }
+
+        function redrawAll() {
+            updateTheta();
+            updateFuncViz();
+            updateConjugate();
+            updateHyperplane();
+            drawGDCanvas();
+            drawCompCanvas();
+            updateStrongConvex();
+            updateBarrier();
+            updateConvexHull();
+            updateSensitivity();
+            updateSteepest();
+            updateSelfConcord();
+            drawEqNewton3D();
+        }
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(redrawAll, 200);
+        });
+
         // Tab functionality
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1660,12 +1788,10 @@
         }
 
         function updateTheta() {
-            const canvas = document.getElementById('convexSetCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('convexSetCanvas');
+            if (!ctx) return;
             const theta = document.getElementById('thetaSlider').value / 100;
             document.getElementById('thetaValue').textContent = theta.toFixed(2);
-            ctx.clearRect(0, 0, 500, 280);
             const cx = 250, cy = 140;
             ctx.save();
             // Draw shape
@@ -1788,11 +1914,9 @@
             updateFuncViz();
         }
         function updateFuncViz() {
-            const canvas = document.getElementById('convexFuncCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('convexFuncCanvas');
+            if (!ctx) return;
             const W = 500, H = 300;
-            ctx.clearRect(0, 0, W, H);
             const pointPos = document.getElementById('funcPointSlider').value / 100;
             // Axes
             ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
@@ -1865,11 +1989,9 @@
 
         // ============ 3. Conjugate Function Visualization ============
         function updateConjugate() {
-            const canvas = document.getElementById('conjugateCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('conjugateCanvas');
+            if (!ctx) return;
             const W = 500, H = 300;
-            ctx.clearRect(0, 0, W, H);
             const y = document.getElementById('conjugateSlider').value / 100;
             document.getElementById('conjugateYValue').textContent = y.toFixed(2);
             // f(x) = x^2, conjugate f*(y) = y^2/4
@@ -1931,11 +2053,9 @@
             updateHyperplane();
         }
         function updateHyperplane() {
-            const canvas = document.getElementById('hyperplaneCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('hyperplaneCanvas');
+            if (!ctx) return;
             const W = 500, H = 300;
-            ctx.clearRect(0, 0, W, H);
             const angle = document.getElementById('hyperplaneAngle').value * Math.PI / 180;
             if (hyperMode === 'separating') {
                 // Two circles
@@ -2018,11 +2138,9 @@
             document.getElementById('stepSizeLabel').textContent = (document.getElementById('stepSizeSlider').value / 100).toFixed(2);
         }
         function drawGDCanvas() {
-            const canvas = document.getElementById('gradDescentCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('gradDescentCanvas');
+            if (!ctx) return;
             const W = 500, H = 350;
-            ctx.clearRect(0, 0, W, H);
 
             if (gdViewMode === '3d') {
                 // ---- 3D Surface View ----
@@ -2199,11 +2317,9 @@
             newtonPath = []; gdCompPath = []; drawCompCanvas();
         }
         function drawCompCanvas() {
-            const canvas = document.getElementById('newtonVsGDCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('newtonVsGDCanvas');
+            if (!ctx) return;
             const W = 500, H = 350;
-            ctx.clearRect(0, 0, W, H);
             const mapX = (x) => W / 2 + x * 80;
             const mapY = (y) => H / 2 - y * 60;
             // Contours
@@ -2249,11 +2365,9 @@
 
         // ============ 7. Strongly Convex Visualization ============
         function updateStrongConvex() {
-            const canvas = document.getElementById('strongConvexCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('strongConvexCanvas');
+            if (!ctx) return;
             const W = 500, H = 280;
-            ctx.clearRect(0, 0, W, H);
             const m = document.getElementById('strongMSlider').value / 100;
             document.getElementById('strongMValue').textContent = m.toFixed(2);
             const mapX = (x) => 50 + (x + 3) * 65;
@@ -2309,11 +2423,9 @@
 
         // ============ 8. Barrier Method Visualization ============
         function updateBarrier() {
-            const canvas = document.getElementById('barrierCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('barrierCanvas');
+            if (!ctx) return;
             const W = 500, H = 300;
-            ctx.clearRect(0, 0, W, H);
             const t = parseInt(document.getElementById('barrierTSlider').value);
             document.getElementById('barrierTValue').textContent = t;
             // Problem: min x, s.t. x >= 0.5 (i.e., 0.5 - x <= 0)
@@ -2377,11 +2489,9 @@
 
         // ============ 9. Convex Hull Max at Vertex ============
         function updateConvexHull() {
-            const canvas = document.getElementById('convexHullCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('convexHullCanvas');
+            if (!ctx) return;
             const W = 500, H = 280;
-            ctx.clearRect(0, 0, W, H);
             let l1 = document.getElementById('lambda1Slider').value / 100;
             let l2 = document.getElementById('lambda2Slider').value / 100;
             // Ensure valid convex combination: all lambdas >= 0 and sum = 1
@@ -2426,11 +2536,9 @@
 
         // ============ 10. Sensitivity Analysis ============
         function updateSensitivity() {
-            const canvas = document.getElementById('sensitivityCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('sensitivityCanvas');
+            if (!ctx) return;
             const W = 500, H = 260;
-            ctx.clearRect(0, 0, W, H);
             const u = document.getElementById('sensitivitySlider').value / 50;
             document.getElementById('sensitivityUValue').textContent = u.toFixed(2);
             const mapX = (x) => W / 2 + x * 100;
@@ -2485,11 +2593,9 @@
             updateSteepest();
         }
         function updateSteepest() {
-            const canvas = document.getElementById('steepestCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('steepestCanvas');
+            if (!ctx) return;
             const W = 500, H = 300;
-            ctx.clearRect(0, 0, W, H);
             const cx = W / 2, cy = H / 2;
             // Draw contour lines (elliptic: 4x^2 + y^2)
             ctx.lineWidth = 1;
@@ -2593,11 +2699,9 @@
             updateSelfConcord();
         }
         function updateSelfConcord() {
-            const canvas = document.getElementById('selfConcordCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('selfConcordCanvas');
+            if (!ctx) return;
             const W = 500, H = 260;
-            ctx.clearRect(0, 0, W, H);
             const mapX = (x) => 30 + (x - 0.3) * 120;
             const mapY = (y) => H - 40 - y * 20;
             // Axes
@@ -2701,11 +2805,9 @@
         }
 
         function drawEqNewton3D() {
-            const canvas = document.getElementById('eqNewton3DCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = prepareCanvas('eqNewton3DCanvas');
+            if (!ctx) return;
             const W = 540, H = 380;
-            ctx.clearRect(0, 0, W, H);
             const cx = W / 2, cy = H / 2 + 20;
             const scale = 1.1;
             const rotY = parseInt(document.getElementById('eqNewtonRotY').value) * Math.PI / 180;
@@ -2900,19 +3002,7 @@
         // ============ Initialize all visualizations on load ============
         window.addEventListener('load', () => {
             setTimeout(() => {
-                updateTheta();
-                updateFuncViz();
-                updateConjugate();
-                updateHyperplane();
-                drawGDCanvas();
-                drawCompCanvas();
-                updateStrongConvex();
-                updateBarrier();
-                updateConvexHull();
-                updateSensitivity();
-                updateSteepest();
-                updateSelfConcord();
-                drawEqNewton3D();
+                redrawAll();
             }, 500);
         });
     </script>
