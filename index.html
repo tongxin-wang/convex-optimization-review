@@ -2192,6 +2192,259 @@
                 <strong>English：</strong>The geometric mean $\sqrt{x_1 x_2}$ is concave. The Hessian is negative semidefinite (negative scalar times a PSD matrix), so $f$ is concave, not convex.
             </div>
 
+            <h4>(b) $f(x) = \frac{1}{x_1 x_2}$, $x \in \mathbb{R}^2_{++}$</h4>
+            <div class="answer">
+                <strong>结论：凸函数（Convex）。</strong><br><br>
+                <strong>中文：</strong>$f(x) = (x_1 x_2)^{-1}$。可以验证 Hessian 半正定。<br>
+                $\nabla^2 f = \begin{pmatrix} 2/(x_1^3 x_2) & 1/(x_1^2 x_2^2) \\ 1/(x_1^2 x_2^2) & 2/(x_1 x_2^3) \end{pmatrix}$<br>
+                行列式 $= 4/(x_1^4 x_2^4) - 1/(x_1^4 x_2^4) = 3/(x_1^4 x_2^4) > 0$，对角元素正 → 正定 → 凸。<br><br>
+                <strong>English：</strong>The Hessian has positive diagonal entries and positive determinant $3/(x_1^4 x_2^4) > 0$, so it is positive definite. Hence $f$ is (strictly) convex.
+            </div>
+
+            <h4>(c) $f(x,y) = x/y$, $x, y \in \mathbb{R}_+$</h4>
+            <div class="answer">
+                <strong>结论：既不凸也不凹（Neither convex nor concave）。</strong><br><br>
+                <strong>中文：</strong>Hessian为 $\nabla^2 f = \begin{pmatrix} 0 & -1/y^2 \\ -1/y^2 & 2x/y^3 \end{pmatrix}$。<br>
+                行列式 $= 0 - 1/y^4 = -1/y^4 < 0$ → Hessian不定 → 既不凸也不凹。<br><br>
+                <strong>English：</strong>The Hessian has determinant $-1/y^4 < 0$, so it is indefinite. $f$ is neither convex nor concave.
+            </div>
+
+            <h4>(d) $f(x,y) = x^2/y$, $x, y \in \mathbb{R}_+$ (with $y > 0$)</h4>
+            <div class="answer">
+                <strong>结论：凸函数（Convex）。</strong><br><br>
+                <strong>中文/English：</strong>见期中 Problem 5(a) 的证明。这是 $g(x)=x^2$ 的透视函数，凸性保持。<br>
+                See Midterm Problem 5(a). This is the perspective of $g(x)=x^2$, which preserves convexity.
+            </div>
+
+            <h4>(e) $f(x) = \|Ax - b\|$, $A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$</h4>
+            <div class="answer">
+                <strong>结论：凸函数（Convex）。</strong><br><br>
+                <strong>中文：</strong>范数 $\|\cdot\|$ 是凸函数，$Ax-b$ 是 $x$ 的仿射函数。凸函数的仿射复合仍为凸函数。<br><br>
+                <strong>English：</strong>Any norm $\|\cdot\|$ is convex, and $Ax-b$ is affine in $x$. Composition of a convex function with an affine mapping preserves convexity.
+            </div>
+
+            <h3>Problem 2: 计算共轭函数 / Compute conjugate functions</h3>
+            
+            <h4>(a) $f(x) = x_1^2 + x_2^2$, $x \in \mathbb{R}^2_{++}$</h4>
+            <div class="answer">
+                <strong>中文：</strong><br>
+                $f^*(y) = \sup_x [y^Tx - (x_1^2 + x_2^2)] = \sup_x [y_1 x_1 + y_2 x_2 - x_1^2 - x_2^2]$<br>
+                对 $x_1$ 求导：$y_1 - 2x_1 = 0 \Rightarrow x_1 = y_1/2$<br>
+                对 $x_2$ 求导：$y_2 - 2x_2 = 0 \Rightarrow x_2 = y_2/2$<br>
+                注意定义域约束 $x \in \mathbb{R}^2_{++}$，需要 $y_1 > 0, y_2 > 0$（否则最优 $x$ 在边界，需要单独分析）。<br>
+                当 $y_1, y_2 > 0$ 时：代入得 $f^*(y) = \frac{y_1^2}{4} + \frac{y_2^2}{4} = \frac{\|y\|^2}{4}$<br>
+                当 $y_1 \leq 0$ 或 $y_2 \leq 0$ 时：取 $x_i \to 0^+$，$f^*(y) = \frac{\|y\|^2}{4}$（因为无约束最优点不在定义域内时，需要在边界取值）。<br>
+                实际上，由于 $\mathbb{R}^2_{++}$ 是开集，当 $y_i \leq 0$ 时上确界仍可通过取极限得到。<br><br>
+                $$\boxed{f^*(y) = \frac{y_1^2 + y_2^2}{4} = \frac{\|y\|_2^2}{4}, \quad y \in \mathbb{R}^2}$$
+                （注：如果严格限制 $x \in \mathbb{R}^2_{++}$，当 $y_i \leq 0$ 时上确界在边界趋近取到）<br><br>
+                <strong>English：</strong><br>
+                $f^*(y) = \sup_{x \in \mathbb{R}^2_{++}}[y^Tx - \|x\|^2]$. Setting gradient to zero: $x^* = y/2$.<br>
+                If $y \in \mathbb{R}^2_{++}$, then $x^* = y/2 \in \mathbb{R}^2_{++}$ and $f^*(y) = \|y\|^2/4$.<br>
+                $$\boxed{f^*(y) = \frac{\|y\|_2^2}{4}}$$
+            </div>
+
+            <h4>(b) $f(x) = |x|^3/3$, $x \in \mathbb{R}$</h4>
+            <div class="answer">
+                <strong>中文：</strong><br>
+                $f^*(y) = \sup_x [yx - |x|^3/3]$<br>
+                当 $x \geq 0$：$g(x) = yx - x^3/3$，$g'(x) = y - x^2 = 0 \Rightarrow x = \sqrt{y}$（需 $y \geq 0$）<br>
+                代入：$g(\sqrt{y}) = y\sqrt{y} - y\sqrt{y}/3 = \frac{2}{3}y^{3/2}$<br>
+                当 $x < 0$：$g(x) = yx + x^3/3$（因为 $|x|^3 = -x^3$ 当 $x<0$... 不对，$|x|^3 = |x|^3 = (-x)^3 = -x^3$... 实际上 $|x|^3 = |x|^3$，当 $x<0$ 时 $|x| = -x$，所以 $|x|^3 = (-x)^3 = -x^3$）<br>
+                所以 $f(x) = |x|^3/3$，当 $x < 0$ 时 $f(x) = (-x)^3/3 = -x^3/3$。<br>
+                $g(x) = yx - (-x^3/3) = yx + x^3/3$，$g'(x) = y + x^2 = 0 \Rightarrow x^2 = -y$（需 $y \leq 0$），$x = -\sqrt{-y}$<br>
+                代入：$g(-\sqrt{-y}) = y(-\sqrt{-y}) + (-\sqrt{-y})^3/3 = -y\sqrt{-y} - (-y)^{3/2}/3 = -y\sqrt{-y} + y\sqrt{-y}/3$... <br>
+                让我用 $|y|$ 重写：当 $y \leq 0$，令 $y = -|y|$，$x = -\sqrt{|y|}$：<br>
+                $g = -|y| \cdot (-\sqrt{|y|}) + (-\sqrt{|y|})^3/3 = |y|^{3/2} - |y|^{3/2}/3 = \frac{2}{3}|y|^{3/2}$<br><br>
+                综合：$$\boxed{f^*(y) = \frac{2}{3}|y|^{3/2}}$$
+
+                <strong>English：</strong><br>
+                For $y \geq 0$: optimal $x = \sqrt{y}$, giving $f^*(y) = \frac{2}{3}y^{3/2}$.<br>
+                For $y < 0$: optimal $x = -\sqrt{|y|}$, giving $f^*(y) = \frac{2}{3}|y|^{3/2}$.<br>
+                $$\boxed{f^*(y) = \frac{2}{3}|y|^{3/2}}$$
+            </div>
+
+            <h3>Problem 3: 对偶问题 / Duality</h3>
+            <div class="example">
+                <strong>题目：</strong>maximize $f(x) = x^Tx$, subject to $Ax = b$
+            </div>
+
+            <h4>(a) 拉格朗日函数 / Lagrangian</h4>
+            <div class="answer">
+                <strong>中文：</strong>将最大化问题转为最小化：minimize $-x^Tx$ s.t. $Ax = b$<br>
+                $$\boxed{L(x, \nu) = -x^Tx + \nu^T(Ax - b)}$$
+                <strong>English：</strong>Convert to minimization: minimize $-x^Tx$ s.t. $Ax = b$.<br>
+                $L(x, \nu) = -x^Tx + \nu^T(Ax - b)$
+            </div>
+
+            <h4>(b) 对偶问题 / Dual problem</h4>
+            <div class="answer">
+                <strong>中文：</strong><br>
+                对偶函数：$g(\nu) = \inf_x [-x^Tx + \nu^TAx - \nu^Tb]$<br>
+                对 $x$ 求导令为0：$-2x + A^T\nu = 0 \Rightarrow x = \frac{1}{2}A^T\nu$<br>
+                代入：
+                $$g(\nu) = -\frac{1}{4}\nu^TAA^T\nu + \frac{1}{2}\nu^TAA^T\nu - \nu^Tb = \frac{1}{4}\nu^TAA^T\nu - \nu^Tb$$
+                对偶问题：$$\boxed{\text{maximize} \quad \frac{1}{4}\nu^TAA^T\nu - \nu^Tb}$$
+                <strong>English：</strong><br>
+                Dual function: $g(\nu) = \inf_x[-x^Tx + \nu^TAx - \nu^Tb]$.<br>
+                FOC: $-2x + A^T\nu = 0 \Rightarrow x = A^T\nu/2$.<br>
+                Substituting: $g(\nu) = \frac{1}{4}\nu^TAA^T\nu - \nu^Tb$.<br>
+                Dual problem: maximize $\frac{1}{4}\nu^TAA^T\nu - \nu^Tb$.
+            </div>
+
+            <h4>(c) KKT条件 / KKT conditions</h4>
+            <div class="answer">
+                <strong>中文/English：</strong>
+                <ol>
+                    <li>原始可行性 / Primal feasibility: $Ax^* = b$</li>
+                    <li>梯度条件 / Stationarity: $-2x^* + A^T\nu^* = 0$，即 $x^* = \frac{1}{2}A^T\nu^*$</li>
+                </ol>
+                （无不等式约束，所以没有对偶可行性和互补松弛条件）<br>
+                <span class="en">(No inequality constraints, so no dual feasibility or complementary slackness.)</span>
+            </div>
+
+            <h4>(d) 强对偶性 / Strong duality</h4>
+            <div class="answer">
+                <strong>中文：</strong><br>
+                注意：原问题是<strong>最大化凸函数</strong>（$x^Tx$ 是凸的），这<strong>不是</strong>凸优化问题！它是非凸的。<br>
+                如果 $A$ 的零空间非平凡（即存在 $z \neq 0$ 使得 $Az = 0$），则对任何可行点 $x_0$（$Ax_0 = b$），$x_0 + tz$ 也可行，且 $\|x_0 + tz\|^2 \to \infty$。所以 $p^* = +\infty$（最优值无界）。<br>
+                如果 $A$ 列满秩（零空间只有 $\{0\}$），则可行集只有一个点 $x = A^{\dagger}b$（如果 $m \geq n$），$p^* = \|A^{\dagger}b\|^2$。<br><br>
+                一般情况下，如果可行集无界，则 $p^* = +\infty$。<br><br>
+                <strong>English：</strong><br>
+                The primal maximizes a convex function — this is NOT a convex optimization problem!<br>
+                If $A$ has a nontrivial null space (i.e., $\exists z \neq 0$ with $Az = 0$), then for any feasible $x_0$, $x_0 + tz$ is also feasible and $\|x_0+tz\|^2 \to \infty$ as $t \to \infty$. So $p^* = +\infty$ (unbounded).<br>
+                If $A$ has full column rank and $m \geq n$, the feasible set is a single point and $p^*$ is finite.<br>
+                Strong duality may or may not hold depending on the structure of $A$.
+            </div>
+
+            <h3>Problem 4: 梯度下降与线搜索 / Gradient Descent & Line Search</h3>
+            
+            <h4>(a) 梯度下降算法 / Gradient Descent Algorithm</h4>
+            <div class="answer">
+                <strong>中文：</strong><br>
+                <strong>输入：</strong>初始点 $x^{(0)} \in \text{dom}(f)$，容差 $\epsilon > 0$<br>
+                <strong>重复：</strong><br>
+                1. 计算梯度 $\nabla f(x)$<br>
+                2. 如果 $\|\nabla f(x)\|_2 \leq \epsilon$，停止<br>
+                3. 设下降方向 $\Delta x = -\nabla f(x)$<br>
+                4. 通过线搜索选择步长 $t > 0$<br>
+                5. 更新 $x := x + t\Delta x$<br><br>
+                <strong>English：</strong><br>
+                <strong>Input:</strong> starting point $x^{(0)} \in \text{dom}(f)$, tolerance $\epsilon > 0$<br>
+                <strong>Repeat:</strong><br>
+                1. Compute gradient $\nabla f(x)$<br>
+                2. If $\|\nabla f(x)\|_2 \leq \epsilon$, stop<br>
+                3. Set descent direction $\Delta x = -\nabla f(x)$<br>
+                4. Choose step size $t > 0$ via line search<br>
+                5. Update $x := x + t\Delta x$
+            </div>
+
+            <h4>(b) 精确线搜索与回溯线搜索 / Exact & Backtracking Line Search</h4>
+            <div class="answer">
+                <strong>精确线搜索 / Exact：</strong>$t = \arg\min_{t>0} f(x + t\Delta x)$<br>
+                沿搜索方向找使目标函数最小的步长。/ Find the step size minimizing $f$ along the search direction.<br><br>
+                <strong>回溯线搜索 / Backtracking：</strong><br>
+                参数 $\alpha \in (0, 0.5)$, $\beta \in (0, 1)$。从 $t = 1$ 开始：<br>
+                While $f(x + t\Delta x) > f(x) + \alpha t \nabla f(x)^T\Delta x$: 令 $t := \beta t$<br>
+                <span class="en">Parameters $\alpha \in (0,0.5)$, $\beta \in (0,1)$. Start with $t=1$. While Armijo condition is violated, shrink: $t := \beta t$.</span>
+            </div>
+
+            <h4>(c) 最速下降方向 / Steepest descent directions</h4>
+            <div class="answer">
+                <strong>归一化最速下降方向 / Normalized：</strong>
+                $$\Delta x_{\text{nsd}} = \arg\min_{\|v\| = 1} \nabla f(x)^T v$$
+                <strong>非归一化最速下降方向 / Unnormalized：</strong>
+                $$\Delta x_{\text{sd}} = \arg\min_{\|v\| \leq 1} \nabla f(x)^T v$$
+                对于欧几里得范数 / For Euclidean norm: $\Delta x_{\text{nsd}} = -\nabla f(x)/\|\nabla f(x)\|_2$, $\Delta x_{\text{sd}} = -\nabla f(x)$
+            </div>
+
+            <h4>(d) 证明 $g(x) = -\ln(x)$ 自协调 / Prove $g(x) = -\ln(x)$ is self-concordant</h4>
+            <div class="answer">
+                <strong>中文：</strong>对 $g(x_1, x_2) = -\ln x_1 - \ln x_2$，$x \in \mathbb{R}^2_{++}$：<br>
+                由于函数可分离，只需证明一维情况 $h(t) = -\ln t$ 是自协调的。<br>
+                $h'(t) = -1/t$, $h''(t) = 1/t^2$, $h'''(t) = -2/t^3$<br>
+                验证：$|h'''(t)| = 2/t^3$, $2(h''(t))^{3/2} = 2(1/t^2)^{3/2} = 2/t^3$<br>
+                $|h'''(t)| = 2(h''(t))^{3/2}$ ✓（等号成立）<br>
+                自协调函数的和仍是自协调的，所以 $g(x_1,x_2) = -\ln x_1 - \ln x_2$ 自协调。✓<br><br>
+                <strong>English：</strong><br>
+                Since $g$ is separable, it suffices to show $h(t) = -\ln t$ is self-concordant.<br>
+                $h''(t) = 1/t^2$, $h'''(t) = -2/t^3$.<br>
+                Check: $|h'''(t)| = 2/t^3 = 2(1/t^2)^{3/2} = 2(h''(t))^{3/2}$ ✓<br>
+                Sum of self-concordant functions is self-concordant, so $g$ is self-concordant. ✓
+            </div>
+
+            <h3>Problem 5: 强凸函数不等式 / Strongly convex inequality</h3>
+            <div class="answer">
+                <strong>题目：</strong>$f$ 强凸，$\nabla^2 f(x) \succeq mI$ 在 $S = \{x \mid f(x) \leq f(x^{(0)})\}$ 上。证明 $f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|_2^2$。<br><br>
+                <strong>中文证明：</strong><br>
+                由强凸性，对任意 $y$：
+                $$f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$$
+                右边是关于 $y$ 的二次函数，对 $y$ 求最小值：<br>
+                令 $\nabla_y [f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2] = \nabla f(x) + m(y-x) = 0$<br>
+                得 $y^* = x - \frac{1}{m}\nabla f(x)$<br>
+                代入右边的最小值：
+                $$f(y^*) \geq f(x) + \nabla f(x)^T(-\frac{1}{m}\nabla f(x)) + \frac{m}{2}\|\frac{1}{m}\nabla f(x)\|^2 = f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$$
+                由于 $p^* = \inf_y f(y) \leq f(y)$ 对所有 $y$，但上面的不等式方向是 $f(y) \geq$ 右边。<br>
+                正确推导：由于对所有 $y$ 都有 $f(y) \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$... 不对。<br><br>
+                <strong>正确推导：</strong><br>
+                对最优点 $x^*$（$f(x^*) = p^*$）应用强凸性：
+                $$p^* = f(x^*) \geq f(x) + \nabla f(x)^T(x^* - x) + \frac{m}{2}\|x^* - x\|^2$$
+                这给出 $p^*$ 的下界，但我们需要上界。换个思路：<br><br>
+                由强凸性的等价形式：$f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$ 对所有 $y$。<br>
+                取右边关于 $y$ 的最小值（这是 $f$ 的一个下界的最小值）：<br>
+                $$p^* = \min_y f(y) \geq \min_y \left[f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2\right]$$
+                右边最小值在 $y = x - \frac{1}{m}\nabla f(x)$ 取到，值为 $f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$。<br>
+                所以 $p^* \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$，即：
+                $$\boxed{f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|_2^2}$$ ✓<br><br>
+                <strong>English Proof：</strong><br>
+                By strong convexity: $f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$ for all $y$.<br>
+                Taking the minimum over $y$ on both sides:<br>
+                $p^* = \min_y f(y) \geq \min_y [f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2]$<br>
+                The RHS minimizer is $y^* = x - \frac{1}{m}\nabla f(x)$, giving minimum value $f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$.<br>
+                Therefore: $p^* \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$, i.e., $f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|^2$. ✓
+            </div>
+
+            <h3>Problem 6: 牛顿法 / Newton's Method</h3>
+            
+            <h4>(a) 牛顿下降方向 / Newton descent direction</h4>
+            <div class="answer">
+                <strong>中文：</strong>牛顿下降方向定义为：
+                $$\boxed{\Delta x_{\text{nt}} = -[\nabla^2 f(x)]^{-1}\nabla f(x)}$$
+                它是在当前点 $x$ 处，对 $f$ 做二阶Taylor展开后，最小化该二次近似得到的方向。<br><br>
+                <strong>English：</strong>The Newton descent direction is $\Delta x_{\text{nt}} = -[\nabla^2 f(x)]^{-1}\nabla f(x)$. It is the direction obtained by minimizing the second-order Taylor approximation of $f$ at $x$.
+            </div>
+
+            <h4>(b) 牛顿减量 / Newton decrement $\lambda(x)$</h4>
+            <div class="answer">
+                $$\boxed{\lambda(x) = \left(\nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)\right)^{1/2} = \left(\Delta x_{\text{nt}}^T \nabla^2 f(x) \Delta x_{\text{nt}}\right)^{1/2}}$$
+                <p><strong>中文：</strong>牛顿减量是一个仿射不变的量，衡量当前点到最优点的"距离"。当 $\lambda(x) \ll 1$ 时，牛顿法进入二次收敛阶段。</p>
+                <p class="en"><strong>English：</strong>The Newton decrement is an affine-invariant measure of proximity to the optimum. When $\lambda(x) \ll 1$, Newton's method enters the quadratically convergent phase.</p>
+            </div>
+
+            <h4>(c) 二阶近似的最小值点和最小值 / Minimizer and minimum of quadratic approximation</h4>
+            <div class="answer">
+                <strong>题目：</strong>$g(y) = f(x) + \nabla f(x)^Ty + \frac{1}{2}y^T\nabla^2 f(x)y$ 是 $f(x+y)$ 在 $x$ 点的二阶近似。<br><br>
+                <strong>最小值点 / Minimizer：</strong><br>
+                $\nabla_y g = \nabla f(x) + \nabla^2 f(x) y = 0$<br>
+                $$\boxed{y^* = -[\nabla^2 f(x)]^{-1}\nabla f(x) = \Delta x_{\text{nt}}}$$
+                <span class="en">The minimizer of the quadratic approximation is exactly the Newton step.</span><br><br>
+                <strong>最小值 / Minimum value：</strong><br>
+                $$g(y^*) = f(x) + \nabla f(x)^T\Delta x_{\text{nt}} + \frac{1}{2}\Delta x_{\text{nt}}^T\nabla^2 f(x)\Delta x_{\text{nt}}$$
+                $$= f(x) - \nabla f(x)^T[\nabla^2 f]^{-1}\nabla f(x) + \frac{1}{2}\nabla f(x)^T[\nabla^2 f]^{-1}\nabla f(x)$$
+                $$\boxed{= f(x) - \frac{1}{2}\lambda^2(x)}$$
+            </div>
+
+            <h4>(d) 证明 $f(x) - \inf_y g(y) = \frac{1}{2}\lambda^2(x)$</h4>
+            <div class="answer">
+                <strong>中文：</strong>由(c)的结果：$\inf_y g(y) = g(y^*) = f(x) - \frac{1}{2}\lambda^2(x)$<br>
+                因此：
+                $$\boxed{f(x) - \inf_y g(y) = f(x) - [f(x) - \frac{1}{2}\lambda^2(x)] = \frac{1}{2}\lambda^2(x)}$$ ✓<br><br>
+                <strong>English：</strong>From (c): $\inf_y g(y) = f(x) - \frac{1}{2}\lambda^2(x)$.<br>
+                Therefore: $f(x) - \inf_y g(y) = \frac{1}{2}\lambda^2(x)$. ✓<br><br>
+                <strong>直觉 / Intuition：</strong>$\frac{1}{2}\lambda^2(x)$ 是当前函数值与二阶近似最优值之间的差距，反映了"如果世界是二次的，牛顿一步能下降多少"。<br>
+                <span class="en">$\frac{1}{2}\lambda^2(x)$ represents how much Newton's method would decrease the function if the quadratic approximation were exact.</span>
+            </div>
+        </div>
+
         <!-- ==================== Tutorial Exercises Similar to Exams ==================== -->
         <div class="section" id="tutorial-exercises">
             <h2>📚 Tutorial/Assignment 精选例题 Selected Exercises <span class="exam-tag new-tag">考试相关</span></h2>
@@ -2593,258 +2846,7 @@
         </div>
 
 
-            <h4>(b) $f(x) = \frac{1}{x_1 x_2}$, $x \in \mathbb{R}^2_{++}$</h4>
-            <div class="answer">
-                <strong>结论：凸函数（Convex）。</strong><br><br>
-                <strong>中文：</strong>$f(x) = (x_1 x_2)^{-1}$。可以验证 Hessian 半正定。<br>
-                $\nabla^2 f = \begin{pmatrix} 2/(x_1^3 x_2) & 1/(x_1^2 x_2^2) \\ 1/(x_1^2 x_2^2) & 2/(x_1 x_2^3) \end{pmatrix}$<br>
-                行列式 $= 4/(x_1^4 x_2^4) - 1/(x_1^4 x_2^4) = 3/(x_1^4 x_2^4) > 0$，对角元素正 → 正定 → 凸。<br><br>
-                <strong>English：</strong>The Hessian has positive diagonal entries and positive determinant $3/(x_1^4 x_2^4) > 0$, so it is positive definite. Hence $f$ is (strictly) convex.
-            </div>
 
-            <h4>(c) $f(x,y) = x/y$, $x, y \in \mathbb{R}_+$</h4>
-            <div class="answer">
-                <strong>结论：既不凸也不凹（Neither convex nor concave）。</strong><br><br>
-                <strong>中文：</strong>Hessian为 $\nabla^2 f = \begin{pmatrix} 0 & -1/y^2 \\ -1/y^2 & 2x/y^3 \end{pmatrix}$。<br>
-                行列式 $= 0 - 1/y^4 = -1/y^4 < 0$ → Hessian不定 → 既不凸也不凹。<br><br>
-                <strong>English：</strong>The Hessian has determinant $-1/y^4 < 0$, so it is indefinite. $f$ is neither convex nor concave.
-            </div>
-
-            <h4>(d) $f(x,y) = x^2/y$, $x, y \in \mathbb{R}_+$ (with $y > 0$)</h4>
-            <div class="answer">
-                <strong>结论：凸函数（Convex）。</strong><br><br>
-                <strong>中文/English：</strong>见期中 Problem 5(a) 的证明。这是 $g(x)=x^2$ 的透视函数，凸性保持。<br>
-                See Midterm Problem 5(a). This is the perspective of $g(x)=x^2$, which preserves convexity.
-            </div>
-
-            <h4>(e) $f(x) = \|Ax - b\|$, $A \in \mathbb{R}^{m \times n}$, $b \in \mathbb{R}^m$</h4>
-            <div class="answer">
-                <strong>结论：凸函数（Convex）。</strong><br><br>
-                <strong>中文：</strong>范数 $\|\cdot\|$ 是凸函数，$Ax-b$ 是 $x$ 的仿射函数。凸函数的仿射复合仍为凸函数。<br><br>
-                <strong>English：</strong>Any norm $\|\cdot\|$ is convex, and $Ax-b$ is affine in $x$. Composition of a convex function with an affine mapping preserves convexity.
-            </div>
-
-            <h3>Problem 2: 计算共轭函数 / Compute conjugate functions</h3>
-            
-            <h4>(a) $f(x) = x_1^2 + x_2^2$, $x \in \mathbb{R}^2_{++}$</h4>
-            <div class="answer">
-                <strong>中文：</strong><br>
-                $f^*(y) = \sup_x [y^Tx - (x_1^2 + x_2^2)] = \sup_x [y_1 x_1 + y_2 x_2 - x_1^2 - x_2^2]$<br>
-                对 $x_1$ 求导：$y_1 - 2x_1 = 0 \Rightarrow x_1 = y_1/2$<br>
-                对 $x_2$ 求导：$y_2 - 2x_2 = 0 \Rightarrow x_2 = y_2/2$<br>
-                注意定义域约束 $x \in \mathbb{R}^2_{++}$，需要 $y_1 > 0, y_2 > 0$（否则最优 $x$ 在边界，需要单独分析）。<br>
-                当 $y_1, y_2 > 0$ 时：代入得 $f^*(y) = \frac{y_1^2}{4} + \frac{y_2^2}{4} = \frac{\|y\|^2}{4}$<br>
-                当 $y_1 \leq 0$ 或 $y_2 \leq 0$ 时：取 $x_i \to 0^+$，$f^*(y) = \frac{\|y\|^2}{4}$（因为无约束最优点不在定义域内时，需要在边界取值）。<br>
-                实际上，由于 $\mathbb{R}^2_{++}$ 是开集，当 $y_i \leq 0$ 时上确界仍可通过取极限得到。<br><br>
-                $$\boxed{f^*(y) = \frac{y_1^2 + y_2^2}{4} = \frac{\|y\|_2^2}{4}, \quad y \in \mathbb{R}^2}$$
-                （注：如果严格限制 $x \in \mathbb{R}^2_{++}$，当 $y_i \leq 0$ 时上确界在边界趋近取到）<br><br>
-                <strong>English：</strong><br>
-                $f^*(y) = \sup_{x \in \mathbb{R}^2_{++}}[y^Tx - \|x\|^2]$. Setting gradient to zero: $x^* = y/2$.<br>
-                If $y \in \mathbb{R}^2_{++}$, then $x^* = y/2 \in \mathbb{R}^2_{++}$ and $f^*(y) = \|y\|^2/4$.<br>
-                $$\boxed{f^*(y) = \frac{\|y\|_2^2}{4}}$$
-            </div>
-
-            <h4>(b) $f(x) = |x|^3/3$, $x \in \mathbb{R}$</h4>
-            <div class="answer">
-                <strong>中文：</strong><br>
-                $f^*(y) = \sup_x [yx - |x|^3/3]$<br>
-                当 $x \geq 0$：$g(x) = yx - x^3/3$，$g'(x) = y - x^2 = 0 \Rightarrow x = \sqrt{y}$（需 $y \geq 0$）<br>
-                代入：$g(\sqrt{y}) = y\sqrt{y} - y\sqrt{y}/3 = \frac{2}{3}y^{3/2}$<br>
-                当 $x < 0$：$g(x) = yx + x^3/3$（因为 $|x|^3 = -x^3$ 当 $x<0$... 不对，$|x|^3 = |x|^3 = (-x)^3 = -x^3$... 实际上 $|x|^3 = |x|^3$，当 $x<0$ 时 $|x| = -x$，所以 $|x|^3 = (-x)^3 = -x^3$）<br>
-                所以 $f(x) = |x|^3/3$，当 $x < 0$ 时 $f(x) = (-x)^3/3 = -x^3/3$。<br>
-                $g(x) = yx - (-x^3/3) = yx + x^3/3$，$g'(x) = y + x^2 = 0 \Rightarrow x^2 = -y$（需 $y \leq 0$），$x = -\sqrt{-y}$<br>
-                代入：$g(-\sqrt{-y}) = y(-\sqrt{-y}) + (-\sqrt{-y})^3/3 = -y\sqrt{-y} - (-y)^{3/2}/3 = -y\sqrt{-y} + y\sqrt{-y}/3$... <br>
-                让我用 $|y|$ 重写：当 $y \leq 0$，令 $y = -|y|$，$x = -\sqrt{|y|}$：<br>
-                $g = -|y| \cdot (-\sqrt{|y|}) + (-\sqrt{|y|})^3/3 = |y|^{3/2} - |y|^{3/2}/3 = \frac{2}{3}|y|^{3/2}$<br><br>
-                综合：$$\boxed{f^*(y) = \frac{2}{3}|y|^{3/2}}$$
-
-                <strong>English：</strong><br>
-                For $y \geq 0$: optimal $x = \sqrt{y}$, giving $f^*(y) = \frac{2}{3}y^{3/2}$.<br>
-                For $y < 0$: optimal $x = -\sqrt{|y|}$, giving $f^*(y) = \frac{2}{3}|y|^{3/2}$.<br>
-                $$\boxed{f^*(y) = \frac{2}{3}|y|^{3/2}}$$
-            </div>
-
-            <h3>Problem 3: 对偶问题 / Duality</h3>
-            <div class="example">
-                <strong>题目：</strong>maximize $f(x) = x^Tx$, subject to $Ax = b$
-            </div>
-
-            <h4>(a) 拉格朗日函数 / Lagrangian</h4>
-            <div class="answer">
-                <strong>中文：</strong>将最大化问题转为最小化：minimize $-x^Tx$ s.t. $Ax = b$<br>
-                $$\boxed{L(x, \nu) = -x^Tx + \nu^T(Ax - b)}$$
-                <strong>English：</strong>Convert to minimization: minimize $-x^Tx$ s.t. $Ax = b$.<br>
-                $L(x, \nu) = -x^Tx + \nu^T(Ax - b)$
-            </div>
-
-            <h4>(b) 对偶问题 / Dual problem</h4>
-            <div class="answer">
-                <strong>中文：</strong><br>
-                对偶函数：$g(\nu) = \inf_x [-x^Tx + \nu^TAx - \nu^Tb]$<br>
-                对 $x$ 求导令为0：$-2x + A^T\nu = 0 \Rightarrow x = \frac{1}{2}A^T\nu$<br>
-                代入：
-                $$g(\nu) = -\frac{1}{4}\nu^TAA^T\nu + \frac{1}{2}\nu^TAA^T\nu - \nu^Tb = \frac{1}{4}\nu^TAA^T\nu - \nu^Tb$$
-                对偶问题：$$\boxed{\text{maximize} \quad \frac{1}{4}\nu^TAA^T\nu - \nu^Tb}$$
-                <strong>English：</strong><br>
-                Dual function: $g(\nu) = \inf_x[-x^Tx + \nu^TAx - \nu^Tb]$.<br>
-                FOC: $-2x + A^T\nu = 0 \Rightarrow x = A^T\nu/2$.<br>
-                Substituting: $g(\nu) = \frac{1}{4}\nu^TAA^T\nu - \nu^Tb$.<br>
-                Dual problem: maximize $\frac{1}{4}\nu^TAA^T\nu - \nu^Tb$.
-            </div>
-
-            <h4>(c) KKT条件 / KKT conditions</h4>
-            <div class="answer">
-                <strong>中文/English：</strong>
-                <ol>
-                    <li>原始可行性 / Primal feasibility: $Ax^* = b$</li>
-                    <li>梯度条件 / Stationarity: $-2x^* + A^T\nu^* = 0$，即 $x^* = \frac{1}{2}A^T\nu^*$</li>
-                </ol>
-                （无不等式约束，所以没有对偶可行性和互补松弛条件）<br>
-                <span class="en">(No inequality constraints, so no dual feasibility or complementary slackness.)</span>
-            </div>
-
-            <h4>(d) 强对偶性 / Strong duality</h4>
-            <div class="answer">
-                <strong>中文：</strong><br>
-                注意：原问题是<strong>最大化凸函数</strong>（$x^Tx$ 是凸的），这<strong>不是</strong>凸优化问题！它是非凸的。<br>
-                如果 $A$ 的零空间非平凡（即存在 $z \neq 0$ 使得 $Az = 0$），则对任何可行点 $x_0$（$Ax_0 = b$），$x_0 + tz$ 也可行，且 $\|x_0 + tz\|^2 \to \infty$。所以 $p^* = +\infty$（最优值无界）。<br>
-                如果 $A$ 列满秩（零空间只有 $\{0\}$），则可行集只有一个点 $x = A^{\dagger}b$（如果 $m \geq n$），$p^* = \|A^{\dagger}b\|^2$。<br><br>
-                一般情况下，如果可行集无界，则 $p^* = +\infty$。<br><br>
-                <strong>English：</strong><br>
-                The primal maximizes a convex function — this is NOT a convex optimization problem!<br>
-                If $A$ has a nontrivial null space (i.e., $\exists z \neq 0$ with $Az = 0$), then for any feasible $x_0$, $x_0 + tz$ is also feasible and $\|x_0+tz\|^2 \to \infty$ as $t \to \infty$. So $p^* = +\infty$ (unbounded).<br>
-                If $A$ has full column rank and $m \geq n$, the feasible set is a single point and $p^*$ is finite.<br>
-                Strong duality may or may not hold depending on the structure of $A$.
-            </div>
-
-            <h3>Problem 4: 梯度下降与线搜索 / Gradient Descent & Line Search</h3>
-            
-            <h4>(a) 梯度下降算法 / Gradient Descent Algorithm</h4>
-            <div class="answer">
-                <strong>中文：</strong><br>
-                <strong>输入：</strong>初始点 $x^{(0)} \in \text{dom}(f)$，容差 $\epsilon > 0$<br>
-                <strong>重复：</strong><br>
-                1. 计算梯度 $\nabla f(x)$<br>
-                2. 如果 $\|\nabla f(x)\|_2 \leq \epsilon$，停止<br>
-                3. 设下降方向 $\Delta x = -\nabla f(x)$<br>
-                4. 通过线搜索选择步长 $t > 0$<br>
-                5. 更新 $x := x + t\Delta x$<br><br>
-                <strong>English：</strong><br>
-                <strong>Input:</strong> starting point $x^{(0)} \in \text{dom}(f)$, tolerance $\epsilon > 0$<br>
-                <strong>Repeat:</strong><br>
-                1. Compute gradient $\nabla f(x)$<br>
-                2. If $\|\nabla f(x)\|_2 \leq \epsilon$, stop<br>
-                3. Set descent direction $\Delta x = -\nabla f(x)$<br>
-                4. Choose step size $t > 0$ via line search<br>
-                5. Update $x := x + t\Delta x$
-            </div>
-
-            <h4>(b) 精确线搜索与回溯线搜索 / Exact & Backtracking Line Search</h4>
-            <div class="answer">
-                <strong>精确线搜索 / Exact：</strong>$t = \arg\min_{t>0} f(x + t\Delta x)$<br>
-                沿搜索方向找使目标函数最小的步长。/ Find the step size minimizing $f$ along the search direction.<br><br>
-                <strong>回溯线搜索 / Backtracking：</strong><br>
-                参数 $\alpha \in (0, 0.5)$, $\beta \in (0, 1)$。从 $t = 1$ 开始：<br>
-                While $f(x + t\Delta x) > f(x) + \alpha t \nabla f(x)^T\Delta x$: 令 $t := \beta t$<br>
-                <span class="en">Parameters $\alpha \in (0,0.5)$, $\beta \in (0,1)$. Start with $t=1$. While Armijo condition is violated, shrink: $t := \beta t$.</span>
-            </div>
-
-            <h4>(c) 最速下降方向 / Steepest descent directions</h4>
-            <div class="answer">
-                <strong>归一化最速下降方向 / Normalized：</strong>
-                $$\Delta x_{\text{nsd}} = \arg\min_{\|v\| = 1} \nabla f(x)^T v$$
-                <strong>非归一化最速下降方向 / Unnormalized：</strong>
-                $$\Delta x_{\text{sd}} = \arg\min_{\|v\| \leq 1} \nabla f(x)^T v$$
-                对于欧几里得范数 / For Euclidean norm: $\Delta x_{\text{nsd}} = -\nabla f(x)/\|\nabla f(x)\|_2$, $\Delta x_{\text{sd}} = -\nabla f(x)$
-            </div>
-
-            <h4>(d) 证明 $g(x) = -\ln(x)$ 自协调 / Prove $g(x) = -\ln(x)$ is self-concordant</h4>
-            <div class="answer">
-                <strong>中文：</strong>对 $g(x_1, x_2) = -\ln x_1 - \ln x_2$，$x \in \mathbb{R}^2_{++}$：<br>
-                由于函数可分离，只需证明一维情况 $h(t) = -\ln t$ 是自协调的。<br>
-                $h'(t) = -1/t$, $h''(t) = 1/t^2$, $h'''(t) = -2/t^3$<br>
-                验证：$|h'''(t)| = 2/t^3$, $2(h''(t))^{3/2} = 2(1/t^2)^{3/2} = 2/t^3$<br>
-                $|h'''(t)| = 2(h''(t))^{3/2}$ ✓（等号成立）<br>
-                自协调函数的和仍是自协调的，所以 $g(x_1,x_2) = -\ln x_1 - \ln x_2$ 自协调。✓<br><br>
-                <strong>English：</strong><br>
-                Since $g$ is separable, it suffices to show $h(t) = -\ln t$ is self-concordant.<br>
-                $h''(t) = 1/t^2$, $h'''(t) = -2/t^3$.<br>
-                Check: $|h'''(t)| = 2/t^3 = 2(1/t^2)^{3/2} = 2(h''(t))^{3/2}$ ✓<br>
-                Sum of self-concordant functions is self-concordant, so $g$ is self-concordant. ✓
-            </div>
-
-            <h3>Problem 5: 强凸函数不等式 / Strongly convex inequality</h3>
-            <div class="answer">
-                <strong>题目：</strong>$f$ 强凸，$\nabla^2 f(x) \succeq mI$ 在 $S = \{x \mid f(x) \leq f(x^{(0)})\}$ 上。证明 $f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|_2^2$。<br><br>
-                <strong>中文证明：</strong><br>
-                由强凸性，对任意 $y$：
-                $$f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$$
-                右边是关于 $y$ 的二次函数，对 $y$ 求最小值：<br>
-                令 $\nabla_y [f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2] = \nabla f(x) + m(y-x) = 0$<br>
-                得 $y^* = x - \frac{1}{m}\nabla f(x)$<br>
-                代入右边的最小值：
-                $$f(y^*) \geq f(x) + \nabla f(x)^T(-\frac{1}{m}\nabla f(x)) + \frac{m}{2}\|\frac{1}{m}\nabla f(x)\|^2 = f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$$
-                由于 $p^* = \inf_y f(y) \leq f(y)$ 对所有 $y$，但上面的不等式方向是 $f(y) \geq$ 右边。<br>
-                正确推导：由于对所有 $y$ 都有 $f(y) \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$... 不对。<br><br>
-                <strong>正确推导：</strong><br>
-                对最优点 $x^*$（$f(x^*) = p^*$）应用强凸性：
-                $$p^* = f(x^*) \geq f(x) + \nabla f(x)^T(x^* - x) + \frac{m}{2}\|x^* - x\|^2$$
-                这给出 $p^*$ 的下界，但我们需要上界。换个思路：<br><br>
-                由强凸性的等价形式：$f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$ 对所有 $y$。<br>
-                取右边关于 $y$ 的最小值（这是 $f$ 的一个下界的最小值）：<br>
-                $$p^* = \min_y f(y) \geq \min_y \left[f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2\right]$$
-                右边最小值在 $y = x - \frac{1}{m}\nabla f(x)$ 取到，值为 $f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$。<br>
-                所以 $p^* \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$，即：
-                $$\boxed{f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|_2^2}$$ ✓<br><br>
-                <strong>English Proof：</strong><br>
-                By strong convexity: $f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$ for all $y$.<br>
-                Taking the minimum over $y$ on both sides:<br>
-                $p^* = \min_y f(y) \geq \min_y [f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2]$<br>
-                The RHS minimizer is $y^* = x - \frac{1}{m}\nabla f(x)$, giving minimum value $f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$.<br>
-                Therefore: $p^* \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$, i.e., $f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|^2$. ✓
-            </div>
-
-            <h3>Problem 6: 牛顿法 / Newton's Method</h3>
-            
-            <h4>(a) 牛顿下降方向 / Newton descent direction</h4>
-            <div class="answer">
-                <strong>中文：</strong>牛顿下降方向定义为：
-                $$\boxed{\Delta x_{\text{nt}} = -[\nabla^2 f(x)]^{-1}\nabla f(x)}$$
-                它是在当前点 $x$ 处，对 $f$ 做二阶Taylor展开后，最小化该二次近似得到的方向。<br><br>
-                <strong>English：</strong>The Newton descent direction is $\Delta x_{\text{nt}} = -[\nabla^2 f(x)]^{-1}\nabla f(x)$. It is the direction obtained by minimizing the second-order Taylor approximation of $f$ at $x$.
-            </div>
-
-            <h4>(b) 牛顿减量 / Newton decrement $\lambda(x)$</h4>
-            <div class="answer">
-                $$\boxed{\lambda(x) = \left(\nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)\right)^{1/2} = \left(\Delta x_{\text{nt}}^T \nabla^2 f(x) \Delta x_{\text{nt}}\right)^{1/2}}$$
-                <p><strong>中文：</strong>牛顿减量是一个仿射不变的量，衡量当前点到最优点的"距离"。当 $\lambda(x) \ll 1$ 时，牛顿法进入二次收敛阶段。</p>
-                <p class="en"><strong>English：</strong>The Newton decrement is an affine-invariant measure of proximity to the optimum. When $\lambda(x) \ll 1$, Newton's method enters the quadratically convergent phase.</p>
-            </div>
-
-            <h4>(c) 二阶近似的最小值点和最小值 / Minimizer and minimum of quadratic approximation</h4>
-            <div class="answer">
-                <strong>题目：</strong>$g(y) = f(x) + \nabla f(x)^Ty + \frac{1}{2}y^T\nabla^2 f(x)y$ 是 $f(x+y)$ 在 $x$ 点的二阶近似。<br><br>
-                <strong>最小值点 / Minimizer：</strong><br>
-                $\nabla_y g = \nabla f(x) + \nabla^2 f(x) y = 0$<br>
-                $$\boxed{y^* = -[\nabla^2 f(x)]^{-1}\nabla f(x) = \Delta x_{\text{nt}}}$$
-                <span class="en">The minimizer of the quadratic approximation is exactly the Newton step.</span><br><br>
-                <strong>最小值 / Minimum value：</strong><br>
-                $$g(y^*) = f(x) + \nabla f(x)^T\Delta x_{\text{nt}} + \frac{1}{2}\Delta x_{\text{nt}}^T\nabla^2 f(x)\Delta x_{\text{nt}}$$
-                $$= f(x) - \nabla f(x)^T[\nabla^2 f]^{-1}\nabla f(x) + \frac{1}{2}\nabla f(x)^T[\nabla^2 f]^{-1}\nabla f(x)$$
-                $$\boxed{= f(x) - \frac{1}{2}\lambda^2(x)}$$
-            </div>
-
-            <h4>(d) 证明 $f(x) - \inf_y g(y) = \frac{1}{2}\lambda^2(x)$</h4>
-            <div class="answer">
-                <strong>中文：</strong>由(c)的结果：$\inf_y g(y) = g(y^*) = f(x) - \frac{1}{2}\lambda^2(x)$<br>
-                因此：
-                $$\boxed{f(x) - \inf_y g(y) = f(x) - [f(x) - \frac{1}{2}\lambda^2(x)] = \frac{1}{2}\lambda^2(x)}$$ ✓<br><br>
-                <strong>English：</strong>From (c): $\inf_y g(y) = f(x) - \frac{1}{2}\lambda^2(x)$.<br>
-                Therefore: $f(x) - \inf_y g(y) = \frac{1}{2}\lambda^2(x)$. ✓<br><br>
-                <strong>直觉 / Intuition：</strong>$\frac{1}{2}\lambda^2(x)$ 是当前函数值与二阶近似最优值之间的差距，反映了"如果世界是二次的，牛顿一步能下降多少"。<br>
-                <span class="en">$\frac{1}{2}\lambda^2(x)$ represents how much Newton's method would decrease the function if the quadratic approximation were exact.</span>
-            </div>
-        </div>
 
 
 
