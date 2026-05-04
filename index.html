@@ -188,6 +188,98 @@
             .viz-slider-group input[type="range"] { width: 120px; max-width: 35vw; }
             .viz-caption { font-size: 0.7em; }
         }
+
+        /* Image focus/zoom effect */
+        .img-grid-container {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .img-grid-container > div {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .img-grid-container > div img {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .img-grid-container.has-focus {
+            grid-template-columns: 1fr !important;
+        }
+        .img-grid-container.has-focus > div {
+            display: none;
+        }
+        .img-grid-container.has-focus > div.img-focused {
+            display: block;
+            max-height: none;
+            opacity: 1;
+            transform: none;
+            grid-column: 1 / -1;
+            order: -1;
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+            border: 2px solid #667eea;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .img-grid-container.has-focus > div.img-focused img {
+            max-height: none;
+            max-width: 100%;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .img-grid-container.has-focus > div.img-focused p {
+            display: block;
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        /* Navigation arrows */
+        .img-nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(102, 126, 234, 0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .img-nav-arrow:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+        }
+        .img-nav-arrow.arrow-left {
+            left: 10px;
+        }
+        .img-nav-arrow.arrow-right {
+            right: 10px;
+        }
+        @media (max-width: 768px) {
+            .img-nav-arrow {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            .img-nav-arrow.arrow-left { left: 5px; }
+            .img-nav-arrow.arrow-right { right: 5px; }
+        }
     </style>
 </head>
 <body>
@@ -221,14 +313,83 @@
                 <li><a href="#convexity-preserve">18. 凸性保持运算 Convexity Preserving Ops</a></li>
                 <li><a href="#midterm-answers">📝 期中试题详解 Midterm Solutions</a></li>
                 <li><a href="#final-answers">📝 期末试题详解 Final Solutions</a></li>
+                <li><a href="#tutorial-exercises">📚 Tutorial/Assignment 精选例题 Selected Exercises</a></li>
             </ul>
         </div>
 
         <!-- ==================== Section 1: Convex Set ==================== -->
         <div class="section" id="convex-set">
             <h2>1. 凸集 Convex Sets <span class="exam-tag midterm">期中 Midterm</span><span class="exam-tag final">期末 Final</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 1+2/L1+L2.pdf</span> — Pages 14, 15, 16, 17, 18, 19, 20, 21<br>
+                <span class="en" style="font-style:normal; color:#555;">Convex sets: definitions, examples (convex cone, hyperplanes, halfspaces, balls, polyhedra, PSD cone)</span><br>
+                <span style="color:#667eea;">📄 Lecture 1+2/L1+L2.pdf</span> — Pages 23, 24, 25, 26, 27, 28<br>
+                <span class="en" style="font-style:normal; color:#555;">Operations preserving convexity (intersection, affine mapping, perspective)</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p14.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p14">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 14</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 15</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p16.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p16">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 16</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p17.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p17">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 17</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p18.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p18">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 18</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p19.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p19">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 19</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p20.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p20">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 20</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p21.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p21">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 21</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p23.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p23">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 23</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p24.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p24">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 24</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p25.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p25">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 25</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p26.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p26">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 26</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p27.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p27">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 27</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p28.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p28">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 28</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>想象你有一块地，如果这块地上<strong>任意两个点之间连一条直线，线上所有的点都还在这块地里面</strong>，那这块地就是"凸"的。圆形、三角形是凸的；月牙形不是凸的。</p>
             <p class="en"><strong>English:</strong> A set is convex if for any two points in the set, the entire line segment connecting them also lies within the set. Circles and triangles are convex; crescent shapes are not.</p>
 
@@ -277,8 +438,68 @@
         <!-- ==================== Section 2: Convex Function ==================== -->
         <div class="section" id="convex-function">
             <h2>2. 凸函数 Convex Functions <span class="exam-tag midterm">期中</span><span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 3+4/L3+4.pdf</span> — Pages 4, 5, 6, 7, 8<br>
+                <span class="en" style="font-style:normal; color:#555;">Definition, restriction to line, first/second order conditions</span><br>
+                <span style="color:#667eea;">📄 Lecture 3+4/L3+4.pdf</span> — Pages 10, 11, 12, 13, 14, 15, 16<br>
+                <span class="en" style="font-style:normal; color:#555;">Examples of convex functions on R, Rn, Rm×n</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p4.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p4">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 4</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p5.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p5">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 5</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p6.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p6">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 6</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p7.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p7">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 7</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p8.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p8">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 8</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p10.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p10">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 10</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p11.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p11">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 11</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p12.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p12">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 12</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p13.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p13">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 13</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p14.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p14">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 14</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 15</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p16.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p16">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 16</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>一个函数是凸的，意思就是它的图像<strong>像一个碗</strong>（开口朝上）。函数图像上任意两点之间连一条线段，这条线段一定在函数图像的<strong>上方</strong>。</p>
             <p class="en"><strong>English:</strong> A function is convex if its graph looks like a bowl (opening upward). The line segment between any two points on the graph always lies above or on the graph.</p>
 
@@ -328,8 +549,38 @@
         <!-- ==================== Section 3: Conjugate Function ==================== -->
         <div class="section" id="conjugate">
             <h2>3. 共轭函数 Conjugate Functions <span class="exam-tag midterm">期中</span><span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 3+4/L3+4.pdf</span> — Pages 33, 34, 35, 36, 37<br>
+                <span class="en" style="font-style:normal; color:#555;">Conjugate function: definition, examples, properties</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p33.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p33">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 33</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p34.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p34">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 34</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p35.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p35">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 35</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p36.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p36">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 36</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p37.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p37">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 37</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>共轭函数是一种"变换"。对于每个斜率 $y$，找一条斜率为 $y$ 的直线，使得这条直线尽可能地"贴近"原函数的下方，记录最大间隙。</p>
             <p class="en"><strong>English:</strong> The conjugate function is a transform. For each slope $y$, find the maximum gap between the line $yx$ and the function $f(x)$.</p>
 
@@ -372,8 +623,38 @@
         <!-- ==================== Section 4: Hyperplane Theorems ==================== -->
         <div class="section" id="hyperplane">
             <h2>4. 超平面定理 Hyperplane Theorems <span class="exam-tag midterm">期中</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 1+2/L1+L2.pdf</span> — Pages 33, 34, 35, 36, 37<br>
+                <span class="en" style="font-style:normal; color:#555;">Separating and supporting hyperplane theorems</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p33.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p33">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 33</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p34.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p34">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 34</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p35.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p35">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 35</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p36.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p36">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 36</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p37.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p37">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 37</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong><strong>超平面</strong>是高维空间里的"平面"（二维里是直线，三维里是平面）。<strong>支撑超平面</strong>像用平板"贴"凸体边界；<strong>分离超平面</strong>像用一刀切开两块不重叠的橡皮泥。</p>
             <p class="en"><strong>English:</strong> A <strong>hyperplane</strong> is a flat surface in high dimensions. A <strong>supporting hyperplane</strong> "touches" the boundary of a convex set. A <strong>separating hyperplane</strong> "cuts" between two non-overlapping convex sets.</p>
 
@@ -415,8 +696,52 @@
         <!-- ==================== Section 5: Theorems of Alternatives ==================== -->
         <div class="section" id="alternatives">
             <h2>5. 择一定理 Theorems of Alternatives <span class="exam-tag new-tag">PPT补充</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 1+2/L1+L2.pdf</span> — Pages 38, 39<br>
+                <span class="en" style="font-style:normal; color:#555;">Theorem of alternatives, Farkas lemma (intro)</span><br>
+                <span style="color:#667eea;">📄 Lecture 6+7/L6+7.pdf</span> — Pages 32, 33, 34, 35, 36, 37<br>
+                <span class="en" style="font-style:normal; color:#555;">Theorems of alternatives (detailed)</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p38.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p38">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 38</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p39.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p39">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 39</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p32.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p32">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 32</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p33.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p33">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 33</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p34.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p34">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 34</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p35.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p35">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 35</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p36.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p36">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 36</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p37.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p37">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 37</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>择一定理说的是：两个线性系统，<strong>恰好有一个有解</strong>。就像"要么门开着，要么门关着"——两种情况必居其一，不可能同时成立。</p>
             <p class="en"><strong>English:</strong> Theorems of alternatives state that exactly one of two systems of inequalities has a solution — they are mutually exclusive and exhaustive.</p>
 
@@ -475,8 +800,34 @@
         <!-- ==================== Section 6: Quasiconvex Functions ==================== -->
         <div class="section" id="quasiconvex">
             <h2>6. 拟凸函数 Quasiconvex Functions <span class="exam-tag new-tag">PPT补充</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 3+4/L3+4.pdf</span> — Pages 39, 40, 41, 42<br>
+                <span class="en" style="font-style:normal; color:#555;">Quasiconvex functions: definition, examples, properties</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p39.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p39">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 39</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p40.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p40">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 40</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p41.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p41">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 41</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p42.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p42">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 42</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>拟凸函数比凸函数"弱"一些。它不要求函数像碗，只要求<strong>所有下水平集都是凸的</strong>。换句话说，函数值低于某个阈值的区域总是"一整块"的，不会分成两块。</p>
             <p class="en"><strong>English:</strong> A quasiconvex function is weaker than convex — it only requires all sublevel sets to be convex. The region where $f(x) \leq c$ is always "one piece" (connected and convex).</p>
 
@@ -524,8 +875,22 @@
         <!-- ==================== Section 7: Convex Combination ==================== -->
         <div class="section" id="convex-combination">
             <h2>7. 凸组合与极值性质 Convex Combination & Extrema <span class="exam-tag midterm">期中</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 1+2/L1+L2.pdf</span> — Pages 15<br>
+                <span class="en" style="font-style:normal; color:#555;">Convex combination and convex hull</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_L1+L2_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 1+2/L1+L2.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 1+2/L1+L2.pdf - Page 15</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong><strong>凸组合</strong>就是"加权平均"（权重非负且和为1）。<strong>凸包</strong>就是用橡皮筋把一堆点围起来的区域。</p>
             <p class="en"><strong>English:</strong> A <strong>convex combination</strong> is a weighted average with non-negative weights summing to 1. The <strong>convex hull</strong> is like stretching a rubber band around a set of points.</p>
 
@@ -559,8 +924,76 @@
         <!-- ==================== Section 8: Standard Convex Problem ==================== -->
         <div class="section" id="standard-problem">
             <h2>8. 标准凸优化问题 Standard Convex Problem <span class="exam-tag new-tag">PPT补充</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 5/L5.pdf</span> — Pages 3, 4, 5, 10, 11, 12, 13<br>
+                <span class="en" style="font-style:normal; color:#555;">Standard form, feasibility, optimality criterion</span><br>
+                <span style="color:#667eea;">📄 Lecture 5/L5.pdf</span> — Pages 15, 16, 20, 23, 24, 28, 29<br>
+                <span class="en" style="font-style:normal; color:#555;">LP, QP, QCQP, SOCP, SDP</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p3.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p3">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 3</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p4.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p4">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 4</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p5.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p5">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 5</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p10.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p10">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 10</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p11.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p11">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 11</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p12.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p12">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 12</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p13.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p13">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 13</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 15</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p16.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p16">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 16</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p20.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p20">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 20</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p23.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p23">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 23</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p24.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p24">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 24</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p28.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p28">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 28</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_L5_p29.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 5/L5.pdf p29">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 5/L5.pdf - Page 29</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>凸优化问题就是在凸集上最小化凸函数。它的好处是：<strong>局部最优 = 全局最优</strong>，不会陷入"假的谷底"。</p>
             <p class="en"><strong>English:</strong> A convex optimization problem minimizes a convex function over a convex set. The key benefit: <strong>any local minimum is a global minimum</strong>.</p>
 
@@ -630,8 +1063,84 @@
         <!-- ==================== Section 9: Duality ==================== -->
         <div class="section" id="duality">
             <h2>9. 对偶理论 Duality Theory <span class="exam-tag final">期末 Final</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 6+7/L6+7.pdf</span> — Pages 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15<br>
+                <span class="en" style="font-style:normal; color:#555;">Lagrangian, dual function, dual problem, strong/weak duality</span><br>
+                <span style="color:#667eea;">📄 Lecture 6+7/L6+7.pdf</span> — Pages 20, 21, 22, 23<br>
+                <span class="en" style="font-style:normal; color:#555;">KKT conditions</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p4.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p4">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 4</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p5.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p5">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 5</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p6.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p6">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 6</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p7.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p7">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 7</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p8.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p8">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 8</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p9.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p9">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 9</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p10.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p10">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 10</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p11.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p11">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 11</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p12.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p12">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 12</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p13.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p13">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 13</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p14.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p14">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 14</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 15</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p20.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p20">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 20</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p21.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p21">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 21</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p22.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p22">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 22</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p23.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p23">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 23</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>你有一个优化问题（原问题），对偶理论帮你构造一个"镜像问题"（对偶问题）。对偶问题给出原问题最优值的一个界，很多情况下这个界是紧的。</p>
             <p class="en"><strong>English:</strong> Duality constructs a "mirror problem" (dual) from the original (primal). The dual provides a bound on the primal optimal value, and often this bound is tight.</p>
 
@@ -738,8 +1247,34 @@
         <!-- ==================== Section 10: Sensitivity Analysis ==================== -->
         <div class="section" id="sensitivity">
             <h2>10. 灵敏度分析 Sensitivity Analysis <span class="exam-tag new-tag">PPT补充</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 6+7/L6+7.pdf</span> — Pages 24, 25, 26, 27<br>
+                <span class="en" style="font-style:normal; color:#555;">Perturbation and sensitivity analysis</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p24.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p24">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 24</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p25.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p25">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 25</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p26.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p26">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 26</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_L6+7_p27.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 6+7/L6+7.pdf p27">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 6+7/L6+7.pdf - Page 27</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>灵敏度分析回答的问题是：如果我稍微放松一下约束条件，最优值会变化多少？答案就藏在<strong>最优对偶变量</strong>（拉格朗日乘子）里。</p>
             <p class="en"><strong>English:</strong> Sensitivity analysis answers: how much does the optimal value change if we slightly relax a constraint? The answer is encoded in the optimal dual variables (Lagrange multipliers).</p>
 
@@ -771,8 +1306,58 @@
         <!-- ==================== Section 11: Gradient Descent ==================== -->
         <div class="section" id="gradient-descent">
             <h2>11. 梯度下降法 Gradient Descent <span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 9/L9.pdf</span> — Pages 10, 11, 12, 13, 14, 15, 16, 17, 18, 19<br>
+                <span class="en" style="font-style:normal; color:#555;">Descent methods, gradient descent, convergence</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p10.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p10">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 10</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p11.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p11">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 11</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p12.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p12">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 12</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p13.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p13">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 13</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p14.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p14">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 14</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 15</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p16.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p16">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 16</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p17.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p17">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 17</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p18.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p18">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 18</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p19.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p19">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 19</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>梯度下降就是<strong>"下山"策略</strong>：站在山上，看哪个方向最陡，朝反方向走一步。重复直到到达谷底。</p>
             <p class="en"><strong>English:</strong> Gradient descent is a "go downhill" strategy: at each point, find the steepest direction and take a step in the opposite direction. Repeat until reaching the bottom.</p>
 
@@ -832,8 +1417,34 @@
         <!-- ==================== Section 12: Steepest Descent ==================== -->
         <div class="section" id="steepest-descent">
             <h2>12. 最速下降方向 Steepest Descent Direction <span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 9/L9.pdf</span> — Pages 20, 21, 22, 23<br>
+                <span class="en" style="font-style:normal; color:#555;">Steepest descent method, choice of norm</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p20.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p20">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 20</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p21.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p21">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 21</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p22.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p22">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 22</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p23.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p23">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 23</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>"在当前点，哪个方向走一小步能让函数值下降最快？"答案取决于你怎么度量"一步"的大小。</p>
             <p class="en"><strong>English:</strong> "Which direction gives the fastest decrease for a unit step?" The answer depends on how you measure "unit step" (which norm you use).</p>
 
@@ -870,8 +1481,66 @@
         <!-- ==================== Section 13: Newton's Method ==================== -->
         <div class="section" id="newton-method">
             <h2>13. 牛顿法 Newton's Method <span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 9/L9.pdf</span> — Pages 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35<br>
+                <span class="en" style="font-style:normal; color:#555;">Newton's method, Newton decrement, convergence</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p24.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p24">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 24</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p25.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p25">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 25</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p26.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p26">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 26</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p27.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p27">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 27</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p28.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p28">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 28</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p29.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p29">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 29</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p30.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p30">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 30</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p31.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p31">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 31</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p32.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p32">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 32</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p33.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p33">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 33</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p34.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p34">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 34</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p35.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p35">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 35</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>梯度下降只看"坡度"（一阶），牛顿法还看"地形弯曲"（二阶）。它在当前点用二次函数近似原函数，直接跳到二次函数的最低点。</p>
             <p class="en"><strong>English:</strong> Gradient descent uses only first-order info; Newton's method also uses second-order (curvature). It approximates $f$ with a quadratic and jumps to its minimum.</p>
 
@@ -922,8 +1591,42 @@
         <!-- ==================== Section 14: Self-concordant ==================== -->
         <div class="section" id="self-concordant">
             <h2>14. 自协调函数 Self-concordant Functions <span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 9/L9.pdf</span> — Pages 36, 37, 38, 39, 40, 41<br>
+                <span class="en" style="font-style:normal; color:#555;">Self-concordant functions</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p36.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p36">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 36</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p37.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p37">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 37</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p38.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p38">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 38</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p39.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p39">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 39</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p40.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p40">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 40</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p41.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p41">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 41</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>自协调函数是一类"行为很好"的凸函数——三阶导数被二阶导数控制住了。这保证牛顿法有<strong>不依赖问题参数</strong>的收敛保证。</p>
             <p class="en"><strong>English:</strong> Self-concordant functions have their third derivative controlled by the second derivative. This guarantees Newton's method converges without needing problem-specific parameters (like Lipschitz constants).</p>
 
@@ -966,8 +1669,22 @@
         <!-- ==================== Section 15: Strongly Convex ==================== -->
         <div class="section" id="strongly-convex">
             <h2>15. 强凸函数 Strongly Convex Functions <span class="exam-tag final">期末</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 9/L9.pdf</span> — Pages 9<br>
+                <span class="en" style="font-style:normal; color:#555;">Strong convexity and implications</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_L9_p9.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 9/L9.pdf p9">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 9/L9.pdf - Page 9</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>普通凸函数像碗，但碗底可能很平。<strong>强凸</strong>保证碗底有明显弯曲（至少像 $\frac{m}{2}\|x\|^2$ 那样弯）。这意味着唯一最小值点 + 更快收敛。</p>
             <p class="en"><strong>English:</strong> Ordinary convex functions can be "flat" at the bottom. <strong>Strong convexity</strong> guarantees a minimum curvature (at least $m/2 \cdot \|x\|^2$), ensuring a unique minimizer and faster convergence.</p>
 
@@ -1000,8 +1717,54 @@
         <!-- ==================== Section 16: Equality Constrained Newton ==================== -->
         <div class="section" id="equality-newton">
             <h2>16. 等式约束牛顿法 Equality Constrained Newton <span class="exam-tag new-tag">PPT补充</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 10/L10-25.pdf</span> — Pages 4, 5, 8, 9, 10, 11, 13, 14, 15<br>
+                <span class="en" style="font-style:normal; color:#555;">Equality constrained Newton's method</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p4.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p4">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 4</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p5.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p5">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 5</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p8.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p8">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 8</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p9.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p9">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 9</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p10.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p10">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 10</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p11.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p11">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 11</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p13.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p13">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 13</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p14.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p14">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 14</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_L10-25_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 10/L10-25.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 10/L10-25.pdf - Page 15</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>当优化问题有等式约束 $Ax=b$ 时，不能随便走牛顿步（可能违反约束）。需要在满足约束的"平面"上做牛顿法。</p>
             <p class="en"><strong>English:</strong> When there are equality constraints $Ax=b$, we can't take arbitrary Newton steps. We must stay on the feasible "plane" while applying Newton's method.</p>
 
@@ -1043,8 +1806,50 @@
         <!-- ==================== Section 17: Barrier Method ==================== -->
         <div class="section" id="barrier-method">
             <h2>17. 障碍方法 Barrier Method (Interior Point) <span class="exam-tag new-tag">PPT补充</span></h2>
-            
-            <h3>大白话解释 / Plain Language</h3>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 11/L11.pdf</span> — Pages 4, 6, 7, 8, 9, 10, 15, 16<br>
+                <span class="en" style="font-style:normal; color:#555;">Barrier method, logarithmic barrier, central path</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p4.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p4">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 4</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p6.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p6">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 6</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p7.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p7">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 7</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p8.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p8">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 8</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p9.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p9">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 9</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p10.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p10">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 10</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p15.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p15">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 15</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_L11_p16.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 11/L11.pdf p16">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 11/L11.pdf - Page 16</p>
+                    </div>
+                </div>
+            </details>
+<h3>大白话解释 / Plain Language</h3>
             <p><strong>中文：</strong>障碍方法处理不等式约束的思路是：在可行域边界设置"电网"（障碍函数），让优化过程自动远离边界。然后逐渐降低"电压"，让解慢慢靠近真正的最优点。</p>
             <p class="en"><strong>English:</strong> The barrier method handles inequality constraints by placing an "electric fence" (barrier function) at the boundary. The optimizer stays away from the boundary, and we gradually reduce the "voltage" to approach the true optimum.</p>
 
@@ -1098,6 +1903,61 @@
         <!-- ==================== Section 18: Convexity Preserving ==================== -->
         <div class="section" id="convexity-preserve">
             <h2>18. 凸性保持运算 Convexity Preserving Operations <span class="exam-tag midterm">期中</span><span class="exam-tag final">期末</span></h2>
+
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 课件来源 / Lecture Source：</strong><br>
+                <span style="color:#667eea;">📄 Lecture 3+4/L3+4.pdf</span> — Pages 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32<br>
+                <span class="en" style="font-style:normal; color:#555;">Operations preserving convexity</span><br>
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 点击展开课件截图 / Click to view lecture slides</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:8px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p22.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p22">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 22</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p23.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p23">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 23</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p24.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p24">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 24</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p25.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p25">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 25</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p26.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p26">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 26</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p27.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p27">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 27</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p28.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p28">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 28</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p29.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p29">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 29</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p30.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p30">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 30</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p31.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p31">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 31</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_L3+4_p32.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy" alt="Lecture 3+4/L3+4.pdf p32">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Lecture 3+4/L3+4.pdf - Page 32</p>
+                    </div>
+                </div>
+            </details>
             
             <div class="definition">
                 <strong>保持凸性的运算 / Operations that preserve convexity：</strong>
@@ -1331,6 +2191,407 @@
                 前面系数为负，矩阵半正定，所以 Hessian 半负定 → 凹函数。<br><br>
                 <strong>English：</strong>The geometric mean $\sqrt{x_1 x_2}$ is concave. The Hessian is negative semidefinite (negative scalar times a PSD matrix), so $f$ is concave, not convex.
             </div>
+
+        <!-- ==================== Tutorial Exercises Similar to Exams ==================== -->
+        <div class="section" id="tutorial-exercises">
+            <h2>📚 Tutorial/Assignment 精选例题 Selected Exercises <span class="exam-tag new-tag">考试相关</span></h2>
+            <p><strong>以下题目来自课程tutorials和assignments，与期中/期末考试题型高度相似。</strong></p>
+            <p class="en">The following problems from tutorials and assignments are highly similar to midterm/final exam questions.</p>
+
+            <h3>🔹 Tutorial 1+2: 凸集相关 (类似期中 Problem 1, 2d, 2e)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 1+2 / T1+T2.pdf, Assignment1-2026.pdf
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_T1+T2_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">T1+T2.pdf - Page 1</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_T1+T2_p2.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">T1+T2.pdf - Page 2</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_1_2_Assignment1-2026_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">Assignment1-2026.pdf - Page 1</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T1 Q1: 证明凸组合封闭性 (归纳法)</h4>
+            <div class="example">
+                <strong>题目：</strong>设 $C \subseteq \mathbb{R}^n$ 是凸集，$x_1,\ldots,x_k \in C$，$\theta_1,\ldots,\theta_k \geq 0$ 且 $\sum \theta_i = 1$。证明 $\theta_1 x_1 + \cdots + \theta_k x_k \in C$。<br>
+                <span class="en">Let $C$ be convex, $x_1,\ldots,x_k \in C$, $\theta_i \geq 0$, $\sum \theta_i = 1$. Show $\sum \theta_i x_i \in C$.</span>
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution (归纳法 Induction)：</strong><br><br>
+                <strong>中文：</strong><br>
+                <strong>基础：</strong>$k=2$ 时由凸集定义直接成立。<br>
+                <strong>归纳假设：</strong>假设对 $k-1$ 个点成立。<br>
+                <strong>归纳步骤：</strong>设 $\theta_k < 1$（否则结论平凡）。令 $\mu_i = \theta_i/(1-\theta_k)$，则 $\mu_i \geq 0$，$\sum_{i=1}^{k-1} \mu_i = 1$。<br>
+                由归纳假设：$y = \sum_{i=1}^{k-1} \mu_i x_i \in C$。<br>
+                则 $\sum_{i=1}^k \theta_i x_i = (1-\theta_k)y + \theta_k x_k$，这是 $y$ 和 $x_k$ 的凸组合（$k=2$），由凸性得结论。✓<br><br>
+                <strong>English：</strong><br>
+                <strong>Base:</strong> $k=2$ holds by definition of convexity.<br>
+                <strong>Inductive hypothesis:</strong> Assume true for $k-1$ points.<br>
+                <strong>Inductive step:</strong> Let $\theta_k < 1$. Set $\mu_i = \theta_i/(1-\theta_k)$, so $\mu_i \geq 0$, $\sum_{i=1}^{k-1}\mu_i = 1$.<br>
+                By hypothesis: $y = \sum_{i=1}^{k-1}\mu_i x_i \in C$.<br>
+                Then $\sum \theta_i x_i = (1-\theta_k)y + \theta_k x_k$ is a convex combination of two points in $C$. ✓
+            </div>
+
+            <h4>Assignment 1 Q1: 判断凸集 (类似期中 Problem 1)</h4>
+            <div class="example">
+                <strong>题目：</strong>判断以下集合是否为凸集：<br>
+                (1) $\{(x,y) \in \mathbb{R}^2_{++} \mid x/y \leq 1\}$<br>
+                (3) $\{(x,y) \in \mathbb{R}^2_{++} \mid xy \geq 1\}$<br>
+                (5) $S = \{x \in \mathbb{R}^n \mid x^Ty \leq 1, \forall y \in C\}$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>(1) $\{(x,y) \mid x/y \leq 1, x,y > 0\}$：凸集 ✓</strong><br>
+                中文：等价于 $\{(x,y) \mid x - y \leq 0, x,y > 0\}$，是线性不等式定义的集合与正象限的交集，凸。<br>
+                English: Equivalent to $x - y \leq 0$ intersected with $\mathbb{R}^2_{++}$, which is a half-space intersected with a convex set. ✓<br><br>
+                <strong>(3) $\{(x,y) \mid xy \geq 1, x,y > 0\}$：凸集 ✓</strong><br>
+                中文：$f(x,y) = \ln x + \ln y$ 是凹函数，$\{xy \geq 1\} = \{\ln x + \ln y \geq 0\}$ 是凹函数的上水平集，凸。<br>
+                English: $\ln x + \ln y$ is concave; $\{xy \geq 1\}$ is its superlevel set, hence convex. ✓<br><br>
+                <strong>(5) $S = \{x \mid x^Ty \leq 1, \forall y \in C\}$：凸集 ✓</strong><br>
+                中文：对每个固定的 $y$，$\{x \mid x^Ty \leq 1\}$ 是半空间（凸）。$S$ 是所有这些半空间的交集，凸。<br>
+                English: For each fixed $y$, $\{x \mid x^Ty \leq 1\}$ is a half-space. $S$ is an intersection of half-spaces, hence convex. ✓
+            </div>
+
+            <h3>🔹 Tutorial 4 + Assignment 2: 凸函数与共轭 (类似期中 Problem 2, 3, 5)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 3+4 / t4+a2-2026
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_t4+a2-2026_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">t4+a2-2026 - Page 1</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_3_4_t4+a2-2026_p2.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">t4+a2-2026 - Page 2</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T4 Q1: 判断凸/凹/拟凸/拟凹 (类似期末 Problem 1)</h4>
+            <div class="example">
+                <strong>题目：</strong>判断以下函数的凸凹性：<br>
+                (a) $f(x) = e^x - 1$ on $\mathbb{R}$<br>
+                (b) $f(x_1, x_2) = x_1 x_2$ on $\mathbb{R}^2_{++}$<br>
+                (c) $f(x_1, x_2) = 1/(x_1 x_2)$ on $\mathbb{R}^2_{++}$<br>
+                (d) $f(x_1, x_2) = x_1/x_2$ on $\mathbb{R}^2_{++}$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>(a) $f(x) = e^x - 1$：凸 Convex ✓</strong><br>
+                中文：$f''(x) = e^x > 0$，严格凸。<br>
+                English: $f''(x) = e^x > 0$, strictly convex. ✓<br><br>
+                <strong>(b) $f(x_1,x_2) = x_1 x_2$：既不凸也不凹 (Neither)</strong><br>
+                中文：Hessian $= \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$，特征值 $\pm 1$，不定。但它是拟凹的（上水平集 $\{x_1 x_2 \geq \alpha\}$ 是凸集）。<br>
+                English: Hessian has eigenvalues $\pm 1$, indefinite. But it is quasiconcave (superlevel sets are convex). <br><br>
+                <strong>(c) $f(x_1,x_2) = 1/(x_1 x_2)$：凸 Convex ✓</strong><br>
+                中文：与期末 Problem 1(b) 相同！Hessian正定。<br>
+                English: Same as Final Problem 1(b)! Hessian is positive definite. ✓<br><br>
+                <strong>(d) $f(x_1,x_2) = x_1/x_2$：既不凸也不凹 (Neither)</strong><br>
+                中文：与期末 Problem 1(c) 相同！Hessian行列式 $< 0$，不定。但它是拟线性的（既拟凸又拟凹）。<br>
+                English: Same as Final Problem 1(c)! Hessian determinant $< 0$, indefinite. But it is quasilinear.
+            </div>
+
+            <h4>T4 Q4: 计算共轭函数 (类似期中 Problem 3)</h4>
+            <div class="example">
+                <strong>题目：</strong>求以下函数的共轭：<br>
+                (a) Max function: $f(x) = \max_{i=1,\ldots,n} x_i$ on $\mathbb{R}^n$<br>
+                (b) Piecewise-linear: $f(x) = \max_{i=1,\ldots,m}(a_i x + b_i)$ on $\mathbb{R}$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>(a) $f(x) = \max_i x_i$ 的共轭：</strong><br>
+                中文：$f^*(y) = \sup_x [y^Tx - \max_i x_i]$<br>
+                当 $y \geq 0$ 且 $\mathbf{1}^T y = 1$ 时（即 $y$ 是概率向量），$f^*(y) = 0$。<br>
+                否则 $f^*(y) = +\infty$。<br>
+                $$\boxed{f^*(y) = \begin{cases} 0 & \text{if } y \geq 0, \mathbf{1}^Ty = 1 \\ +\infty & \text{otherwise} \end{cases}}$$
+                English: $f^*(y) = 0$ if $y$ is a probability vector ($y \geq 0$, $\sum y_i = 1$), and $+\infty$ otherwise.<br>
+                Proof: $y^Tx - \max_i x_i = \sum y_i x_i - \max_i x_i$. If $y \geq 0, \sum y_i = 1$: by Jensen, $\sum y_i x_i \leq \max x_i$, so sup $= 0$ (achieved when all $x_i$ equal). If $\sum y_i \neq 1$ or some $y_i < 0$: can make the expression unbounded. ✓<br><br>
+                <strong>(b) $f(x) = \max_i(a_i x + b_i)$ 的共轭：</strong><br>
+                中文：$f^*(y) = \sup_x [yx - \max_i(a_i x + b_i)]$<br>
+                当 $y = \sum \lambda_i a_i$（$\lambda \geq 0$, $\sum \lambda_i = 1$）时：$f^*(y) = -\sum \lambda_i b_i$（取最小的这样的值）。<br>
+                $$\boxed{f^*(y) = -\min\left\{\sum \lambda_i b_i \mid \lambda \geq 0, \sum \lambda_i = 1, \sum \lambda_i a_i = y\right\}}$$
+                English: $f^*$ is finite only when $y$ is a convex combination of the slopes $a_i$, and equals the negative of the minimum weighted sum of intercepts.
+            </div>
+
+            <h3>🔹 Tutorial 5: 最优性验证 (类似期末对偶/KKT题)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 5 / tu5.pdf
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_5_tu5_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">tu5.pdf - Page 1</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T5 Q1: 验证最优性 (KKT条件应用)</h4>
+            <div class="example">
+                <strong>题目：</strong>证明 $x^* = (1, 1/2, -1)$ 是以下问题的最优解：<br>
+                $\min \frac{1}{2}x^TPx + q^Tx + r$，s.t. $-1 \leq x_i \leq 1$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>中文：</strong><br>
+                这是一个box约束的QP问题。最优性条件（KKT）：<br>
+                梯度条件：$\nabla f(x^*) = Px^* + q$，对每个分量 $i$：<br>
+                - 若 $x_i^* \in (-1, 1)$（内部）：$(\nabla f)_i = 0$<br>
+                - 若 $x_i^* = 1$（上界活跃）：$(\nabla f)_i \geq 0$<br>
+                - 若 $x_i^* = -1$（下界活跃）：$(\nabla f)_i \leq 0$<br><br>
+                计算 $\nabla f(x^*) = Px^* + q$，验证上述条件即可。<br>
+                $x_1^* = 1$（上界活跃），需要 $(\nabla f)_1 \geq 0$ ✓<br>
+                $x_2^* = 1/2$（内部），需要 $(\nabla f)_2 = 0$ ✓<br>
+                $x_3^* = -1$（下界活跃），需要 $(\nabla f)_3 \leq 0$ ✓<br><br>
+                <strong>English：</strong><br>
+                This is a box-constrained QP. KKT optimality conditions:<br>
+                - If $x_i^* \in (-1,1)$ (interior): $(\nabla f)_i = 0$<br>
+                - If $x_i^* = 1$ (upper bound active): $(\nabla f)_i \geq 0$<br>
+                - If $x_i^* = -1$ (lower bound active): $(\nabla f)_i \leq 0$<br>
+                Compute $\nabla f(x^*) = Px^* + q$ and verify these conditions hold. ✓
+            </div>
+
+            <h3>🔹 Tutorial 6 + Assignment 3: 对偶与KKT (类似期末 Problem 3, 4)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 6+7 / assign3+tutorial6.pdf
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_assign3+tutorial6_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">assign3+tutorial6.pdf - Page 1</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_assign3+tutorial6_p2.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">assign3+tutorial6.pdf - Page 2</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_6_7_assign3+tutorial6_p3.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">assign3+tutorial6.pdf - Page 3</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T6 Q1: 完整对偶分析 (类似期末 Problem 3)</h4>
+            <div class="example">
+                <strong>题目：</strong>考虑优化问题：$\min x^2 + 1$，s.t. $(x-2)(x-4) \leq 0$<br>
+                (1) 求可行集、最优值、最优解<br>
+                (2) 写出Lagrangian和对偶函数<br>
+                (3) 画出对偶函数图像<br>
+                (4) 求对偶最优值，验证强对偶性<br>
+                (5) 验证KKT条件
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>(1) 原问题分析：</strong><br>
+                中文：可行集 $= [2, 4]$（$(x-2)(x-4) \leq 0$ 即 $2 \leq x \leq 4$）。<br>
+                $f(x) = x^2 + 1$ 在 $[2,4]$ 上单调递增，最优解 $x^* = 2$，最优值 $p^* = 5$。<br>
+                English: Feasible set $= [2,4]$. $f(x) = x^2+1$ is increasing on $[2,4]$, so $x^* = 2$, $p^* = 5$.<br><br>
+                <strong>(2) Lagrangian和对偶函数：</strong><br>
+                $L(x, \lambda) = x^2 + 1 + \lambda(x-2)(x-4) = (1+\lambda)x^2 - 6\lambda x + (1+8\lambda)$<br>
+                对偶函数：$g(\lambda) = \inf_x L(x,\lambda)$<br>
+                当 $1+\lambda > 0$（即 $\lambda > -1$）时，最小值在 $x = 3\lambda/(1+\lambda)$ 处取到：<br>
+                $$g(\lambda) = 1 + 8\lambda - \frac{9\lambda^2}{1+\lambda} = \frac{1 + 9\lambda - \lambda^2}{1+\lambda}$$<br>
+                当 $\lambda = -1$ 时：$L = -6(-1)x + 1+8(-1) = 6x - 7$，$\inf = -\infty$。<br>
+                当 $\lambda < -1$ 时：$(1+\lambda) < 0$，$\inf_x = -\infty$。<br><br>
+                <strong>(3) 对偶问题：</strong><br>
+                $\max_{\lambda \geq 0} g(\lambda)$。令 $g'(\lambda) = 0$ 求解，或验证 $g(\lambda^*) = p^* = 5$。<br>
+                由强对偶性（Slater条件满足：取 $x=3 \in (2,4)$），$d^* = p^* = 5$。<br><br>
+                <strong>(4) KKT条件验证：</strong><br>
+                在 $x^* = 2$, $\lambda^* \geq 0$：<br>
+                - 稳定性：$2x^* + \lambda^*(2x^*-6) = 4 + \lambda^*(-2) = 0 \Rightarrow \lambda^* = 2$ ✓<br>
+                - 互补松弛：$\lambda^*(x^*-2)(x^*-4) = 2 \cdot 0 \cdot (-2) = 0$ ✓<br>
+                - 原始可行：$(2-2)(2-4) = 0 \leq 0$ ✓<br>
+                - 对偶可行：$\lambda^* = 2 \geq 0$ ✓<br><br>
+                English: KKT verified with $x^*=2$, $\lambda^*=2$: stationarity $4-2\lambda^*=0$, complementary slackness holds, primal and dual feasibility hold. ✓
+            </div>
+
+            <h4>T6 Q7: QCQP + KKT (类似期末 Problem 4)</h4>
+            <div class="example">
+                <strong>题目：</strong>$\min 1 + x_2$，s.t. $(x_1-1)^2 + (x_2-1)^2 \leq 1$，$(x_1-1)^2 + (x_2+1)^2 \leq 1$<br>
+                (1) 求最优点和最优值<br>
+                (2) 写出KKT条件，求Lagrange乘子
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>(1) 几何分析：</strong><br>
+                中文：两个约束是圆心分别在 $(1,1)$ 和 $(1,-1)$、半径为1的圆盘。它们的交集只有一个点 $x^* = (1, 0)$。<br>
+                最优值 $p^* = 1 + 0 = 1$。<br>
+                English: The two disks intersect only at $(1,0)$. So $x^* = (1,0)$, $p^* = 1$.<br><br>
+                <strong>(2) KKT条件：</strong><br>
+                $\nabla f = (0, 1)^T$<br>
+                $\nabla g_1(x^*) = 2(x_1-1, x_2-1)^T|_{(1,0)} = (0, -2)^T$<br>
+                $\nabla g_2(x^*) = 2(x_1-1, x_2+1)^T|_{(1,0)} = (0, 2)^T$<br>
+                稳定性：$(0,1) + \lambda_1(0,-2) + \lambda_2(0,2) = 0$<br>
+                → $1 - 2\lambda_1 + 2\lambda_2 = 0$<br>
+                互补松弛：两个约束都活跃（等号成立），所以 $\lambda_1, \lambda_2$ 可以 $> 0$。<br>
+                解：$\lambda_1 - \lambda_2 = 1/2$，加上 $\lambda_1, \lambda_2 \geq 0$，例如 $\lambda_1 = 3/4, \lambda_2 = 1/4$（不唯一）。<br><br>
+                English: Both constraints are active at $(1,0)$. Stationarity gives $1 - 2\lambda_1 + 2\lambda_2 = 0$, i.e., $\lambda_1 - \lambda_2 = 1/2$ with $\lambda_1, \lambda_2 \geq 0$. E.g., $\lambda_1 = 3/4, \lambda_2 = 1/4$. ✓
+            </div>
+
+            <h3>🔹 Tutorial 9: 强凸性与梯度下降 (类似期末 Problem 5)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 9 / T9.pdf
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_9_T9_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">T9.pdf - Page 1</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T9 Q1: 强凸函数的次优性界 (期末常考)</h4>
+            <div class="example">
+                <strong>题目：</strong>设 $f$ 在 $S = \{x \mid f(x) \leq f(x_0)\}$ 上强凸，即 $\nabla^2 f(x) \succeq mI$。证明：
+                $$f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|^2$$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>中文证明：</strong><br>
+                由强凸性，对任意 $y$：$f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$<br>
+                右边关于 $y$ 最小化：令 $\nabla_y[\cdots] = \nabla f(x) + m(y-x) = 0$，得 $y^* = x - \frac{1}{m}\nabla f(x)$<br>
+                代入：$f(y^*) \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$<br>
+                由于 $p^* = \min_y f(y) \leq f(y)$ 对所有 $y$ 成立，特别地：<br>
+                $p^* \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$<br>
+                即 $f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|^2$ ✓<br><br>
+                <strong>English Proof：</strong><br>
+                By strong convexity: $f(y) \geq f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|^2$ for all $y$.<br>
+                Minimizing RHS over $y$: $y^* = x - \frac{1}{m}\nabla f(x)$, giving $\min_y \text{RHS} = f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$.<br>
+                Since $p^* \leq f(y)$ for all $y$, we get $p^* \geq f(x) - \frac{1}{2m}\|\nabla f(x)\|^2$, i.e., $f(x) - p^* \leq \frac{1}{2m}\|\nabla f(x)\|^2$. ✓
+            </div>
+
+            <h4>T9 Q2: 梯度下降收敛性 (精确线搜索)</h4>
+            <div class="example">
+                <strong>题目：</strong>设 $f$ 强凸，$mI \preceq \nabla^2 f(x) \preceq MI$。使用精确线搜索的梯度下降法，证明：
+                $$f(x^{(k+1)}) - p^* \leq \left(1 - \frac{m}{M}\right)(f(x^{(k)}) - p^*)$$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>中文：</strong><br>
+                Step 1: 由 $\nabla^2 f \preceq MI$（Lipschitz梯度），精确线搜索后：<br>
+                $f(x^{(k+1)}) \leq f(x^{(k)}) - \frac{1}{2M}\|\nabla f(x^{(k)})\|^2$<br><br>
+                Step 2: 由强凸性（T9 Q1的结论）：$\|\nabla f(x^{(k)})\|^2 \geq 2m(f(x^{(k)}) - p^*)$<br><br>
+                Step 3: 合并：$f(x^{(k+1)}) - p^* \leq (f(x^{(k)}) - p^*) - \frac{m}{M}(f(x^{(k)}) - p^*) = (1 - m/M)(f(x^{(k)}) - p^*)$ ✓<br><br>
+                <strong>English：</strong><br>
+                Step 1: By $\nabla^2 f \preceq MI$ (Lipschitz gradient): exact line search gives $f(x^{(k+1)}) \leq f(x^{(k)}) - \frac{1}{2M}\|\nabla f(x^{(k)})\|^2$.<br>
+                Step 2: By strong convexity: $\|\nabla f(x^{(k)})\|^2 \geq 2m(f(x^{(k)}) - p^*)$.<br>
+                Step 3: Combining: $f(x^{(k+1)}) - p^* \leq (1 - m/M)(f(x^{(k)}) - p^*)$. ✓<br>
+                This gives linear convergence with rate $1 - m/M = 1 - 1/\kappa$ where $\kappa = M/m$ is the condition number.
+            </div>
+
+            <h3>🔹 Tutorial 10 + Assignment 4: 牛顿法与回溯线搜索 (类似期末 Problem 5, 6)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 10 / T10+a4.pdf
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_T10+a4_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">T10+a4.pdf - Page 1</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_10_T10+a4_p2.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">T10+a4.pdf - Page 2</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T10 Q1: 回溯线搜索步长界 (期末常考)</h4>
+            <div class="example">
+                <strong>题目：</strong>设 $f$ 强凸，$mI \preceq \nabla^2 f(x) \preceq MI$。设 $\Delta x$ 是下降方向。证明回溯线搜索的停止条件在 $t \leq \frac{-\nabla f(x)^T \Delta x}{M\|\Delta x\|^2}$ 时满足。
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>中文：</strong><br>
+                回溯线搜索的Armijo条件：$f(x + t\Delta x) \leq f(x) + \alpha t \nabla f(x)^T \Delta x$<br>
+                由 $\nabla^2 f \preceq MI$，Taylor展开的上界：<br>
+                $f(x + t\Delta x) \leq f(x) + t\nabla f(x)^T\Delta x + \frac{Mt^2}{2}\|\Delta x\|^2$<br>
+                要使Armijo条件成立，只需：<br>
+                $f(x) + t\nabla f(x)^T\Delta x + \frac{Mt^2}{2}\|\Delta x\|^2 \leq f(x) + \alpha t \nabla f(x)^T\Delta x$<br>
+                化简：$t\nabla f(x)^T\Delta x(1-\alpha) + \frac{Mt^2}{2}\|\Delta x\|^2 \leq 0$<br>
+                由于 $\nabla f(x)^T\Delta x < 0$（下降方向），当 $t \leq \frac{2(1-\alpha)(-\nabla f(x)^T\Delta x)}{M\|\Delta x\|^2}$ 时成立。<br>
+                取 $\alpha$ 足够小时，$t \leq \frac{-\nabla f(x)^T\Delta x}{M\|\Delta x\|^2}$ 即可保证。✓<br><br>
+                <strong>English：</strong><br>
+                By $\nabla^2 f \preceq MI$: $f(x+t\Delta x) \leq f(x) + t\nabla f^T\Delta x + \frac{Mt^2}{2}\|\Delta x\|^2$.<br>
+                Armijo condition holds when RHS $\leq f(x) + \alpha t \nabla f^T \Delta x$, which gives $t \leq \frac{2(1-\alpha)(-\nabla f^T\Delta x)}{M\|\Delta x\|^2}$. ✓
+            </div>
+
+            <h3>🔹 Tutorial 11: 障碍方法 (类似期末 Problem 6)</h3>
+            <div class="tip" style="background:#f0f4ff; border-left-color:#667eea;">
+                <strong>📖 来源：</strong> Lecture 11 / T11.pdf
+            </div>
+            <details style="margin:15px 0; border:1px solid #e8ecff; border-radius:8px; padding:10px;">
+                <summary style="cursor:pointer; font-weight:bold; color:#667eea;">📸 查看原题 PDF / View original PDF</summary>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px; margin-top:10px;">
+                    <div style="text-align:center;">
+                        <img src="course_images/Lecture_11_T11_p1.png" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" loading="lazy">
+                        <p style="font-size:0.75em; color:#888; margin-top:4px;">T11.pdf - Page 1</p>
+                    </div>
+                </div>
+            </details>
+
+            <h4>T11 Q1: 障碍方法求解QP</h4>
+            <div class="example">
+                <strong>题目：</strong>用障碍方法和牛顿法求解：$\min \frac{1}{2}x^Tx + c^Tx$，s.t. $Ax \leq b$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>中文：</strong><br>
+                Step 1: 构造障碍函数：$\phi(x) = -\sum_{i=1}^m \ln(b_i - a_i^Tx)$<br>
+                Step 2: 对每个 $t > 0$，求解：$\min_x \; t(\frac{1}{2}x^Tx + c^Tx) + \phi(x)$<br>
+                Step 3: 梯度：$\nabla[t f_0 + \phi] = t(x + c) + \sum_{i=1}^m \frac{a_i}{b_i - a_i^Tx}$<br>
+                Step 4: Hessian：$\nabla^2[t f_0 + \phi] = tI + \sum_{i=1}^m \frac{a_i a_i^T}{(b_i - a_i^Tx)^2}$<br>
+                Step 5: 牛顿步：$\Delta x = -(\nabla^2)^{-1} \nabla$<br>
+                Step 6: 逐步增大 $t$（乘以 $\mu > 1$），直到 $m/t < \epsilon$。<br><br>
+                <strong>English：</strong><br>
+                Step 1: Barrier: $\phi(x) = -\sum \ln(b_i - a_i^Tx)$<br>
+                Step 2: For each $t$, minimize $tf_0(x) + \phi(x)$ using Newton's method.<br>
+                Step 3: Gradient: $t(x+c) + \sum \frac{a_i}{b_i - a_i^Tx}$<br>
+                Step 4: Hessian: $tI + \sum \frac{a_i a_i^T}{(b_i - a_i^Tx)^2}$<br>
+                Step 5: Newton step: $\Delta x = -(\text{Hessian})^{-1}(\text{gradient})$<br>
+                Step 6: Increase $t \leftarrow \mu t$ until duality gap $m/t < \epsilon$. ✓
+            </div>
+
+            <h4>T11 Q2: 障碍方法的牛顿方程</h4>
+            <div class="example">
+                <strong>题目：</strong>写出以下问题在障碍方法中的牛顿方程：<br>
+                $\min \frac{1}{2}(x-a)^T P^{-1}(x-a)$，s.t. $0 \leq x_i \leq 1$
+            </div>
+            <div class="answer">
+                <strong>解答 / Solution：</strong><br><br>
+                <strong>中文：</strong><br>
+                约束 $0 \leq x_i \leq 1$ 等价于 $-x_i \leq 0$ 和 $x_i - 1 \leq 0$。<br>
+                障碍函数：$\phi(x) = -\sum_{i=1}^n [\ln(x_i) + \ln(1-x_i)]$<br>
+                合并目标：$F(x) = t \cdot \frac{1}{2}(x-a)^T P^{-1}(x-a) - \sum [\ln x_i + \ln(1-x_i)]$<br>
+                梯度：$\nabla F = t P^{-1}(x-a) - D^{-1}\mathbf{1} + E^{-1}\mathbf{1}$<br>
+                其中 $D = \text{diag}(x_i)$，$E = \text{diag}(1-x_i)$<br>
+                Hessian：$\nabla^2 F = tP^{-1} + D^{-2} + E^{-2}$<br>
+                牛顿方程：$(tP^{-1} + D^{-2} + E^{-2})\Delta x = -\nabla F$ ✓<br><br>
+                <strong>English：</strong><br>
+                Barrier: $\phi(x) = -\sum[\ln x_i + \ln(1-x_i)]$<br>
+                Hessian: $tP^{-1} + \text{diag}(1/x_i^2) + \text{diag}(1/(1-x_i)^2)$<br>
+                Newton equation: $(tP^{-1} + \text{diag}(1/x_i^2 + 1/(1-x_i)^2))\Delta x = -\nabla F$ ✓
+            </div>
+        </div>
+
 
             <h4>(b) $f(x) = \frac{1}{x_1 x_2}$, $x \in \mathbb{R}^2_{++}$</h4>
             <div class="answer">
@@ -1584,6 +2845,9 @@
                 <span class="en">$\frac{1}{2}\lambda^2(x)$ represents how much Newton's method would decrease the function if the quadratic approximation were exact.</span>
             </div>
         </div>
+
+
+
 
         <!-- ==================== Summary ==================== -->
         <div class="section" id="summary">
@@ -3012,6 +4276,118 @@
             setTimeout(() => {
                 redrawAll();
             }, 500);
+        });
+
+        // ============ Image focus/zoom on click ============
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add class to all image grid containers
+            document.querySelectorAll('details div[style*="display:grid"]').forEach(grid => {
+                grid.classList.add('img-grid-container');
+            });
+
+            // Helper: get all image divs in a grid (excluding arrow buttons)
+            function getImageDivs(grid) {
+                return Array.from(grid.querySelectorAll(':scope > div:not(.img-nav-btn-container)'));
+            }
+
+            // Helper: add navigation arrows to focused image
+            function addNavArrows(focusedDiv, grid) {
+                // Remove existing arrows
+                focusedDiv.querySelectorAll('.img-nav-arrow').forEach(a => a.remove());
+
+                const items = getImageDivs(grid);
+                const currentIdx = items.indexOf(focusedDiv);
+
+                // Left arrow
+                if (items.length > 1) {
+                    const leftBtn = document.createElement('button');
+                    leftBtn.className = 'img-nav-arrow arrow-left';
+                    leftBtn.innerHTML = '&#10094;';
+                    leftBtn.title = 'Previous';
+                    leftBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const prevIdx = (currentIdx - 1 + items.length) % items.length;
+                        switchFocus(grid, items[prevIdx]);
+                    });
+                    focusedDiv.appendChild(leftBtn);
+
+                    // Right arrow
+                    const rightBtn = document.createElement('button');
+                    rightBtn.className = 'img-nav-arrow arrow-right';
+                    rightBtn.innerHTML = '&#10095;';
+                    rightBtn.title = 'Next';
+                    rightBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const nextIdx = (currentIdx + 1) % items.length;
+                        switchFocus(grid, items[nextIdx]);
+                    });
+                    focusedDiv.appendChild(rightBtn);
+                }
+            }
+
+            // Helper: switch focus to a target div
+            function switchFocus(grid, targetDiv) {
+                grid.querySelectorAll('.img-focused').forEach(d => {
+                    d.querySelectorAll('.img-nav-arrow').forEach(a => a.remove());
+                    d.classList.remove('img-focused');
+                });
+                targetDiv.classList.add('img-focused');
+                grid.classList.add('has-focus');
+                addNavArrows(targetDiv, grid);
+                setTimeout(() => {
+                    targetDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+
+            // Delegate click events
+            document.addEventListener('click', (e) => {
+                // Ignore clicks on nav arrows (handled separately)
+                if (e.target.closest('.img-nav-arrow')) return;
+
+                const imgDiv = e.target.closest('.img-grid-container > div');
+                if (!imgDiv) {
+                    // Click outside grid - remove all focus
+                    document.querySelectorAll('.img-grid-container.has-focus').forEach(g => {
+                        g.classList.remove('has-focus');
+                        g.querySelectorAll('.img-focused').forEach(d => {
+                            d.querySelectorAll('.img-nav-arrow').forEach(a => a.remove());
+                            d.classList.remove('img-focused');
+                        });
+                    });
+                    return;
+                }
+
+                const grid = imgDiv.parentElement;
+                if (imgDiv.classList.contains('img-focused')) {
+                    // Click on already focused image - unfocus, restore grid
+                    imgDiv.querySelectorAll('.img-nav-arrow').forEach(a => a.remove());
+                    imgDiv.classList.remove('img-focused');
+                    grid.classList.remove('has-focus');
+                } else {
+                    // Focus this image: expand to full section width
+                    switchFocus(grid, imgDiv);
+                }
+            });
+
+            // Keyboard navigation: left/right arrows when image is focused
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+                const focusedGrid = document.querySelector('.img-grid-container.has-focus');
+                if (!focusedGrid) return;
+                const focusedDiv = focusedGrid.querySelector('.img-focused');
+                if (!focusedDiv) return;
+
+                const items = getImageDivs(focusedGrid);
+                const currentIdx = items.indexOf(focusedDiv);
+                let targetIdx;
+                if (e.key === 'ArrowLeft') {
+                    targetIdx = (currentIdx - 1 + items.length) % items.length;
+                } else {
+                    targetIdx = (currentIdx + 1) % items.length;
+                }
+                switchFocus(focusedGrid, items[targetIdx]);
+                e.preventDefault();
+            });
         });
     </script>
 </body>
